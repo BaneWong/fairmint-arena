@@ -1482,6 +1482,7 @@ function fmaIntent(action, fn, sharesText, amountText, inputData, value){
   return {to:CONTRACT, toLabel:"ASC · "+CONTRACT, action, fn, sharesText, amountText, inputData, value:String(value)};
 }
 async function claimFree(){
+  if(!account){ await copyForAI(); return; }
   $("freeBtn").disabled=true;
   const data=iface.encodeFunctionData("mint",[1,false]);
   const ex=await runTx(fmaIntent(t("txActionFree"),"mint(1, false)",lang==="zh"?"1 份（免费）":"1 (free)",lang==="zh"?"0 BNB（仅 gas）":"0 BNB (gas only)",data,0n));
@@ -1489,6 +1490,7 @@ async function claimFree(){
   $("freeBtn").disabled=false; renderWallet();
 }
 async function buyPaid(){
+  if(!account){ await copyForAI(); return; }
   const {remaining,bonus,cap}=orderCap();
   let n=parseInt($("paidNInput").value||"1",10);
   if(!(n>=1)||n>cap){ msg(t("msgRange",{cap}),"err"); return; }
@@ -1528,6 +1530,7 @@ async function waitAllowance(amount,timeoutMs){
   return false;
 }
 async function refund(){
+  if(!account){ await copyForAI(); return; }
   $("refundBtn").disabled=true;
   const data=iface.encodeFunctionData("refund",[]);
   const ex=await runTx(fmaIntent(t("txActionRefund"),"refund()",null,lang==="zh"?"100% 退回原支付":"100% back to original payment",data,0n));
@@ -1540,6 +1543,10 @@ async function copyPrompt(){
   const ok=()=>{const b=$("copyBtn");b.textContent=t("copied");setTimeout(()=>{b.textContent=t("copy");},1800);};
   try{ await navigator.clipboard.writeText(text); ok(); }
   catch(e){ const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok();}catch(e2){msg(t("copyFail"),"err");}ta.remove(); }
+}
+async function copyForAI(){
+  await copyPrompt();
+  msg(lang==="zh"?"提示词已复制，发给 AI 即可。":"Prompt copied — send it to your AI.","ok");
 }
 function step(delta){
   const inp=$("paidNInput"); const {cap}=orderCap();
