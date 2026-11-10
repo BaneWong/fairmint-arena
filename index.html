@@ -407,6 +407,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   .lmeta .lfee{font-size:12px}
   .ladder{padding-right:0}
 }
+
+@media (max-width:640px){
+  .lb-scroll table{min-width:0;width:100%;table-layout:fixed}
+  .lb-scroll th,.lb-scroll td{padding:7px 5px;font-size:11px}
+  .lb-scroll th.lb-c-rank,.lb-scroll td.lb-c-rank{width:32px}
+  .lb-scroll th.lb-c-num,.lb-scroll td.lb-c-num{width:52px}
+  td.lb-c-num b{font-size:12px}
+  td.lb-c-num span{font-size:10px}
+  .lb-scroll th:nth-child(4),.lb-scroll td:nth-child(4){display:none}
+  .lb-scroll td{word-break:break-all}
+}
 </style>
 </head>
 <body>
