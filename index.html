@@ -997,21 +997,25 @@ function renderOrder(){
   const inp = $("paidNInput");
   selectedShares = Math.max(1, parseInt(inp.value||"1",10) || 1);
   renderPrompt();
-  if(!account || state.pBnb === undefined || state.minted === undefined) return;
-  const {remaining, bonus, cap} = orderCap();
+  const isConn = !!account && state.minted !== undefined;
+  const cap = isConn ? orderCap().cap : 10;
+  const bonus = isConn ? orderCap().bonus : 0;
+  const remaining = isConn ? orderCap().remaining : 10;
   inp.max = Math.max(1, cap);
   let n = selectedShares;
   if(n>cap) n = cap;
   if(n>=1 && document.activeElement!==inp && inp.value!==String(n)){ inp.value=n; selectedShares=n; }
-  const disabled = state.launched || remaining<=0 || !wallet.devModeActive;
-  inp.disabled = state.launched || remaining<=0; $("minus").disabled = disabled || n<=1; $("plus").disabled = disabled || n>=cap;
-  $("buyBtn").disabled = disabled;
+  const disabled = state.launched || (isConn && (remaining<=0 || !wallet.devModeActive));
+  inp.disabled = state.launched || (isConn && remaining<=0);
+  $("minus").disabled = disabled || n<=1; $("plus").disabled = disabled || n>=cap;
+  $("buyBtn").disabled = state.launched;
   if(state.launched){ $("buyHint").textContent=t("buyHintLaunched"); $("buyBtn").textContent=t("poolOpen"); $("sumShares").textContent=$("sumTokens").textContent=$("sumCost").textContent="—"; $("sumAlt").textContent=""; renderPrompt(); return; }
-  if(!wallet.devModeActive){ $("buyHint").textContent=t("msgDevOff"); }
+  if(!isConn){ $("buyHint").textContent = lang==="zh"?"连接钱包后即可购买（价格同上）":"Connect a wallet to buy (price above)"; }
+  else if(!wallet.devModeActive){ $("buyHint").textContent=t("msgDevOff"); }
   else if(remaining<=0){ $("buyHint").textContent=t("buyHintMax"); }
   else { $("buyHint").textContent=t("buyHintCap",{cap, bonusNote: bonus ? t("bonusNote") : ""}); }
-  const price = payAsset==="BNB" ? state.pBnb : state.pUsdt;
-  const altPrice = payAsset==="BNB" ? state.pUsdt : state.pBnb;
+  const price = payAsset==="BNB" ? (state.pBnb ?? 1760000000000000n) : (state.pUsdt ?? 1200000000000000000n);
+  const altPrice = payAsset==="BNB" ? (state.pUsdt ?? 1200000000000000000n) : (state.pBnb ?? 1760000000000000n);
   const cost = price * BigInt(n);
   const alt = altPrice * BigInt(n);
   const total = n + bonus;
