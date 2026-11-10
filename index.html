@@ -941,7 +941,8 @@ const RULES = [
   {zh:["权限","无 owner、无暂停、无预挖、无团队代币"], en:["Privileges","No owner, pause, premine, or team tokens"]},
 ];
 
-let lang = localStorage.getItem("fma2-lang") === "en" ? "en" : "zh";
+const savedLang = localStorage.getItem("fma2-lang");
+let lang = savedLang || ((navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en");
 const t = (k, v) => { let s = (I18N[lang] && I18N[lang][k]) ?? I18N.zh[k] ?? k; if(v) for(const key in v) s = s.split("{"+key+"}").join(v[key]); return s; };
 const $ = (id) => document.getElementById(id);
 const msg = (txt, cls="") => { const m=$("msg"); m.textContent=txt; m.className="msg "+cls; };
