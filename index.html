@@ -705,6 +705,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.17.2/dist/index.umd.js"></script>
 <script>
 const CONTRACT = "0x8A9C36f338EB1E3Ace3cD74342C675849b72978B"; // Agent Ascent v6
 const NEW_CONTRACT = "0x8A9C36f338EB1E3Ace3cD74342C675849b72978B";
@@ -1298,6 +1299,33 @@ async function connectInjected(){
     return true;
   }catch(e){ msg(e.shortMessage||e.message||String(e),"err"); return false; }
 }
+async function connectWalletConnect(){
+  try{
+    const mod = window["@walletconnect/ethereum-provider"];
+    if(!mod || !mod.EthereumProvider){ msg("WalletConnect 加载失败，请刷新","err"); return false; }
+    msg("正在打开 WalletConnect 二维码…");
+    const p = await mod.EthereumProvider.init({
+      projectId: WC_PROJECT_ID,
+      chains: [56],
+      optionalChains: [56],
+      showQrModal: true,
+      metadata: {
+        name: "Agent Ascent",
+        description: "Agent-ID gated fair launch on BSC",
+        url: location.origin,
+        icons: [location.origin + "/brand/asc-logo-256.png"],
+      },
+    });
+    await p.connect();
+    injected = p;
+    const addr = p.accounts && p.accounts[0];
+    setWallet({connected:true,address:addr,devModeActive:true});
+    closeLogin();
+    msg(t("msgConnected",{addr:short(addr)}),"ok");
+    await refresh(); await refreshWallet();
+    return true;
+  }catch(e){ msg(e.message||String(e),"err"); return false; }
+}
 async function checkBridge(){
   injected=getInjected();
   if(injected){ bridgeAvailable=true; $("bridgeNotice").hidden=true; return; }
@@ -1337,6 +1365,7 @@ async function bootWallet(){
 function openLogin(){
   if(injected){ connectInjected(); return; }
   if(!bridgeAvailable){
+    if(location.hostname!=="127.0.0.1" && location.hostname!=="localhost"){ connectWalletConnect(); return; }
     msg(location.hostname==="127.0.0.1"||location.hostname==="localhost"
       ? (lang==="zh"?"本地桥接未启动：cd fairmint-arena && node server.mjs":"Bridge not running: cd fairmint-arena && node server.mjs")
       : (lang==="zh"?"未检测到币安钱包：请在币安 App 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。":"No Binance wallet detected. Open this page inside the Binance App browser, or install the Binance Web3 wallet extension."),"err");
