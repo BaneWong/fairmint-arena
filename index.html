@@ -489,7 +489,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
             <code>cd fairmint-arena &amp;&amp; node server.mjs</code>
           </div>
         </div>
-        <div id="walletPanel" hidden>
+        <div id="walletPanel">
           <dl class="kv">
             <dt data-i18n="wAddrL">我的地址</dt><dd class="addr" id="wAddr">—</dd>
             <dt data-i18n="wBnbL">BNB 余额</dt><dd id="wBnb">—</dd>
@@ -535,6 +535,26 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       </div>
     </div>
     <div class="warn"><b data-i18n="riskT">风险提示：</b><span data-i18n="riskV">开池后不能退款；代币价格由市场决定，可能归零。免费份仅付 gas，付费份请只用亏得起的钱。本页不构成任何价值承诺。</span></div>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap">
+    <div class="panel prompt-card">
+      <div class="panel-head">
+        <h2 data-i18n="aiTitle">AI 提示词</h2>
+        <span style="display:flex;align-items:center;gap:12px"><span class="prompt-state" id="promptState">—</span><button class="btn ghost sm" id="copyBtn" data-i18n="copy">复制</button></span>
+      </div>
+      <p class="hint" style="margin-top:0" data-i18n="aiLead">复制给你的 AI 助手（币安 Agentic Wallet / baw）。提示词跟随上方下单份数：选几份就买几份。先 preview、你说「执行」才发交易。</p>
+      <div class="prompt-meta">
+        <span data-i18n="promptMeta">本次对应</span>
+        <span><span data-i18n="promptBuy">买</span> <b id="promptN">1</b> <span data-i18n="promptShares">份</span></span>
+        <span>· <b id="promptAsset" style="font-size:12px">BNB</b></span>
+        <span>· <span data-i18n="promptDue">应付</span> <b id="promptCost" style="font-size:12px">—</b></span>
+      </div>
+      <pre id="promptBox"></pre>
+      <div class="hint" data-i18n="aiNote">安全约束已写死：先 preview 后 execute（simulationCode 必须 000000000）、免费优先、不动私钥、不擅自买 P2 / 领分红。</div>
+    </div>
   </div>
 </section>
 
@@ -612,25 +632,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   </div>
 </section>
 
-<section id="ai">
-  <div class="wrap">
-    <div class="panel prompt-card">
-      <div class="panel-head">
-        <h2 data-i18n="aiTitle">AI 提示词</h2>
-        <span style="display:flex;align-items:center;gap:12px"><span class="prompt-state" id="promptState">—</span><button class="btn ghost sm" id="copyBtn" data-i18n="copy">复制</button></span>
-      </div>
-      <p class="hint" style="margin-top:0" data-i18n="aiLead">复制给你的 AI 助手（币安 Agentic Wallet / baw）。提示词跟随上方下单份数：选几份就买几份。先 preview、你说「执行」才发交易。</p>
-      <div class="prompt-meta">
-        <span data-i18n="promptMeta">本次对应</span>
-        <span><span data-i18n="promptBuy">买</span> <b id="promptN">1</b> <span data-i18n="promptShares">份</span></span>
-        <span>· <b id="promptAsset" style="font-size:12px">BNB</b></span>
-        <span>· <span data-i18n="promptDue">应付</span> <b id="promptCost" style="font-size:12px">—</b></span>
-      </div>
-      <pre id="promptBox"></pre>
-      <div class="hint" data-i18n="aiNote">安全约束已写死：先 preview 后 execute（simulationCode 必须 000000000）、免费优先、不动私钥、不擅自买 P2 / 领分红。</div>
-    </div>
-  </div>
-</section>
+
 
 <section id="rules">
   <div class="wrap">
@@ -1356,8 +1358,10 @@ async function checkBridge(){
 function setWallet(j){
   wallet = { connected:Boolean(j.connected), address:j.address||null, devModeActive:Boolean(j.devModeActive) };
   account = wallet.connected ? wallet.address : null;
-  if(account){ $("noWallet").hidden=true; $("walletPanel").hidden=false; }
-  else { $("noWallet").hidden=false; $("walletPanel").hidden=true; }
+  if(account){ $("noWallet").hidden=true; }
+  else { $("noWallet").hidden=false; }
+  $("walletPanel").hidden=false;
+  if(!account){ $("freeBtn").disabled=true; $("buyBtn").disabled=true; $("refundBtn").disabled=true; }
   applyStatic();
 }
 async function bootWallet(){
