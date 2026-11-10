@@ -1009,6 +1009,8 @@ function renderOrder(){
   inp.disabled = state.launched || (isConn && remaining<=0);
   $("minus").disabled = disabled || n<=1; $("plus").disabled = disabled || n>=cap;
   $("buyBtn").disabled = state.launched;
+  $("freeBtn").disabled = !isConn || state.launched;
+  $("refundBtn").disabled = !isConn || state.launched;
   if(state.launched){ $("buyHint").textContent=t("buyHintLaunched"); $("buyBtn").textContent=t("poolOpen"); $("sumShares").textContent=$("sumTokens").textContent=$("sumCost").textContent="—"; $("sumAlt").textContent=""; renderPrompt(); return; }
   if(!isConn){ $("buyHint").textContent = lang==="zh"?"连接钱包后即可购买（价格同上）":"Connect a wallet to buy (price above)"; }
   else if(!wallet.devModeActive){ $("buyHint").textContent=t("msgDevOff"); }
