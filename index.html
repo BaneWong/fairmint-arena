@@ -1703,6 +1703,18 @@ const Chip = (() => {
 })();
 
 /* ── wiring ── */
+function armBgmAutostart(){
+  const start=()=>{
+    try{ if(!Chip.playing){ Chip.start(); $("bgmBtn").setAttribute("aria-pressed","true"); } }catch(_){}
+    window.removeEventListener("pointerdown",start);
+    window.removeEventListener("keydown",start);
+    window.removeEventListener("touchstart",start);
+  };
+  window.addEventListener("pointerdown",start,{once:true});
+  window.addEventListener("keydown",start,{once:true});
+  window.addEventListener("touchstart",start,{once:true});
+}
+armBgmAutostart();
 $("bgmBtn").onclick=()=>{ const on=Chip.playing; if(on) Chip.stop(); else Chip.start(); $("bgmBtn").setAttribute("aria-pressed",String(!on)); };
 $("connBtn").onclick=()=>openLogin();
 $("connectBtn2").onclick=()=>openLogin();
