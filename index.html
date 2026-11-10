@@ -1305,7 +1305,7 @@ async function checkBridge(){
   {
   try{
     const ctl = new AbortController();
-    const to = setTimeout(()=>ctl.abort(), 6000);
+    const to = setTimeout(()=>ctl.abort(), 20000);
     const r = await fetch("/api/wallet/status", {signal:ctl.signal});
     clearTimeout(to);
     const j = await r.json();
@@ -1337,12 +1337,13 @@ async function bootWallet(){
 /* ── QR login ── */
 function openLogin(){
   if(injected){ connectInjected(); return; }
-  $("loginModal").hidden=false;
   if(!bridgeAvailable){
-    $("loginLoading").hidden=true; $("loginQrWrap").hidden=true; $("loginPairingWrap").hidden=true; $("loginExpire").hidden=true; $("loginRetry").hidden=true;
-    const s=$("loginStatus"); s.textContent=t("loginBridgeOff"); s.className="login-status err";
+    msg(location.hostname==="127.0.0.1"||location.hostname==="localhost"
+      ? "本地桥接未启动：cd fairmint-arena && node server.mjs"
+      : "未检测到币安钱包：请在币安 App 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。","err");
     return;
   }
+  $("loginModal").hidden=false;
   startLoginFlow();
 }
 function closeLogin(){ $("loginModal").hidden=true; stopLoginPoll(); }
