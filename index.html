@@ -1333,7 +1333,7 @@ async function connectWalletConnect(){
     msg(t("msgConnected",{addr:short(addr)}),"ok");
     await refresh(); await refreshWallet();
     return true;
-  }catch(e){ msg(lang==="zh"?"WalletConnect 连接失败。请改用币安 App 内置浏览器打开本页。":"WalletConnect failed. Open this page in the Binance App instead.","err"); return false; }
+  }catch(e){ await copyForAI(); return false; }
 }
 async function checkBridge(){
   injected=getInjected();
