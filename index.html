@@ -360,7 +360,9 @@ code{background:var(--raise);border:1px solid var(--line2);padding:1px 6px;font-
 .supply-note{margin-top:12px;padding:12px 14px;background:var(--green-d);border:1px solid var(--line2);font-size:11.5px;color:var(--muted);font-family:var(--sans)}
 .supply-note b{color:var(--green)}
 footer{padding:28px 0 46px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;position:relative;z-index:1}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;text-transform:uppercase}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;text-transform:uppercase}
+footer a{color:var(--cyan);text-decoration:none;border:1px solid var(--line);padding:4px 11px;letter-spacing:.08em;transition:color .15s,border-color .15s,background .15s}
+footer a:hover{color:var(--cyan);border-color:var(--cyan);background:rgba(56,217,255,.12)}
 
 /* ── modals ── */
 .modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(2,3,7,.86);backdrop-filter:blur(5px)}
@@ -450,6 +452,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       <a href="#ai" data-i18n="navAI">AI</a>
       <a href="#rules" data-i18n="navRules">规则</a>
       <a href="#contract" data-i18n="navContract">合约</a>
+      <a href="whitepaper.html" class="wp-link" data-i18n="navWPplain">白皮书</a>
     </nav>
     <button type="button" class="bgm" id="bgmBtn" aria-pressed="false" title="Dark cyber BGM"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-i18n="bgm">♪ 电子乐</span></button>
     <div class="lang" role="group" aria-label="Language">
@@ -679,7 +682,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
     <div class="panel">
       <div class="panel-head"><h2 data-i18n="contractTitle">合约</h2><span class="systag">SYS.07 / ON-CHAIN</span></div>
       <dl class="kv">
-        <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x8A9C36f338EB1E3Ace3cD74342C675849b72978B</dd>
+        <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x17E69FB51961aDFBE35523859f9392d20aD1c4c4</dd>
         <dt data-i18n="cNameL">名称 / 符号</dt><dd><span data-i18n="cNameV">Agent Ascent · ASC（已上线）</span></dd>
         <dt data-i18n="cSupplyMintedL">已铸造（含 15% 预留）</dt><dd id="cSupplyMinted">—</dd>
         <dt data-i18n="cSupplyMaxL">满额总供应（全部售出时）</dt><dd id="cSupplyMax" style="color:var(--green)">2,220,000,000,000 ASC</dd>
@@ -687,10 +690,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       </dl>
       <div class="supply-note" id="supplyNote">—</div>
       <div class="links">
-        <a href="https://bscscan.com/address/0x8A9C36f338EB1E3Ace3cD74342C675849b72978B#code" target="_blank" rel="noopener">BscScan ↗</a>
-        <a href="https://bscscan.com/token/0x8A9C36f338EB1E3Ace3cD74342C675849b72978B" target="_blank" rel="noopener"><span data-i18n="cTokenPage">代币页</span> ↗</a>
+        <a href="https://bscscan.com/address/0x17E69FB51961aDFBE35523859f9392d20aD1c4c4#code" target="_blank" rel="noopener">BscScan ↗</a>
+        <a href="https://bscscan.com/token/0x17E69FB51961aDFBE35523859f9392d20aD1c4c4" target="_blank" rel="noopener"><span data-i18n="cTokenPage">代币页</span> ↗</a>
       </div>
-      <p class="hint" style="margin-bottom:0" data-i18n="cTechNote">完整合约接口、常量与技术细节见白皮书（新标签页打开）。</p>
+      <p class="hint" style="margin-bottom:0" data-i18n="cTechNote">完整合约接口、常量与技术细节见白皮书。</p>
     </div>
   </div>
 </section>
@@ -699,6 +702,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
 <footer>
   <div class="wrap">
     <span>Agent Ascent · ASC / legacy ASC · BNB Smart Chain</span>
+    <a href="whitepaper.html" data-i18n="navWPplain">白皮书</a>
     <span data-i18n="footerNote">数据实时读自链上合约 · 无价值承诺 · DYOR</span>
   </div>
 </footer>
@@ -741,8 +745,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
 <script>window.process=window.process||{env:{NODE_ENV:"production"}};window.global=window.global||window;</script>
 <script src="vendor/walletconnect.js"></script>
 <script>
-const CONTRACT = "0x8A9C36f338EB1E3Ace3cD74342C675849b72978B"; // Agent Ascent v6
-const NEW_CONTRACT = "0x8A9C36f338EB1E3Ace3cD74342C675849b72978B";
+const CONTRACT = "0x17E69FB51961aDFBE35523859f9392d20aD1c4c4"; // Agent Ascent v7
+const NEW_CONTRACT = "0x17E69FB51961aDFBE35523859f9392d20aD1c4c4";
 const USDT = "0x55d398326f99059fF775485246999027B3197955";
 const ABI = [
   "function totalShares() view returns (uint256)",
@@ -844,7 +848,7 @@ zh: {
   rulesTitle:"规则（写死在合约里）",
   contractTitle:"合约", cAddrL:"代币 / 铸造合约", cNameL:"名称 / 符号", cSupplyMintedL:"已铸造（含 15% 预留）", cSupplyMaxL:"满额总供应（全部售出时）", cTokenPage:"代币页",
   supplyNote:"口径说明：当前 <b>{minted}</b> 是已铸造量（= 已铸份额 × 500,000，含每份 75,000 预留），不是上限。满额总供应（全部售出时） <b>{max}</b> = 4,440,000 份 × 500,000。",
-  cTechNote:"完整合约接口、常量与技术细节见白皮书（新标签页打开）。",
+  cTechNote:"完整合约接口、常量与技术细节见白皮书。",
   footerNote:"数据实时读自链上合约 · 无价值承诺 · DYOR",
   bgm:"♪ 电子乐", loginTitle:"扫码登录 // SCAN TO LINK", loginLoading:"正在生成二维码…", loginScan:"用币安 App 扫码并确认配对", loginPairing:"配对码", loginRetry:"重新生成", loginFoot:"签名在币安 App 内完成 · 不触碰私钥",
   loginExpire:"二维码 {s}s 后过期", loginExpired:"二维码已过期，请重新生成", loginConnected:"已连接，正在进入…", loginFail:"登录失败：{e}", loginBridgeOff:"请在币安 App 内置浏览器打开本页连接钱包。",
@@ -911,7 +915,7 @@ en: {
   rulesTitle:"Rules (hard-coded in the contract)",
   contractTitle:"Contract", cAddrL:"Token / mint contract", cNameL:"Name / symbol", cSupplyMintedL:"Minted (incl. 15% reserve)", cSupplyMaxL:"Max supply (if all sold)", cTokenPage:"Token page",
   supplyNote:"Reading the numbers: <b>{minted}</b> is the amount minted so far (= shares × 500,000, including the 75,000/share reserve), not a cap. Max supply (if all sold) <b>{max}</b> = 4,440,000 shares × 500,000.",
-  cTechNote:"Full contract interface, constants and technical detail live in the whitepaper (opens in a new tab).",
+  cTechNote:"Full contract interface, constants and technical detail live in the whitepaper.",
   footerNote:"Data read live from the contract · no value promise · DYOR",
   bgm:"♪ BGM", loginTitle:"SCAN TO LINK", loginLoading:"Generating QR…", loginScan:"Scan with the Binance App and confirm pairing", loginPairing:"Pairing code", loginRetry:"Regenerate", loginFoot:"Local bridge only · AI-wallet exclusive · no key access",
   loginExpire:"QR expires in {s}s", loginExpired:"QR expired — regenerate", loginConnected:"Linked, entering…", loginFail:"Login failed: {e}", loginBridgeOff:"Open this page in the Binance App browser to connect your wallet.",
