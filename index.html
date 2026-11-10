@@ -472,7 +472,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       <span class="badge"><span data-i18n="bToken">代币</span> <b>ASC · 18 <span data-i18n="bDec">位</span></b></span>
       <span class="badge"><span data-i18n="bPer">每份</span> <b>500,000 <span data-i18n="bTokens">枚</span></b></span>
       <span class="badge"><span data-i18n="bOpen">开池</span> <b data-i18n="bOpenV">满 10,000 份</b></span>
-      <span class="badge hi"><span data-i18n="bMaxSupply">满额总供应</span> <b>2,220,000,000,000</b></span>
+      <span class="badge hi"><span data-i18n="bMaxSupply">满额总供应（全部售出时）</span> <b>2,220,000,000,000</b></span>
     </div>
   </div>
 </section>
@@ -508,8 +508,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
           <span data-i18n="legendEnd">▏右端 = 开池阈值</span>
         </div>
         <div class="supply-strip">
-          <div class="ss"><span data-i18n="supplyMinted">已铸造 / 已售出（含预留）</span><b id="ssMinted">—</b></div>
-          <div class="ss max"><span data-i18n="supplyMax">满额总供应</span><b id="ssMax">2,220,000,000,000</b></div>
+          <div class="ss"><span data-i18n="supplyMinted">已铸造（含 15% 预留）</span><b id="ssMinted">—</b></div>
+          <div class="ss max"><span data-i18n="supplyMax">满额总供应（全部售出时）</span><b id="ssMax">2,220,000,000,000</b></div>
         </div>
       </div>
 
@@ -681,8 +681,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       <dl class="kv">
         <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x8A9C36f338EB1E3Ace3cD74342C675849b72978B</dd>
         <dt data-i18n="cNameL">名称 / 符号</dt><dd><span data-i18n="cNameV">Agent Ascent · ASC（已上线）</span></dd>
-        <dt data-i18n="cSupplyMintedL">已铸造 / 已售出（含预留）</dt><dd id="cSupplyMinted">—</dd>
-        <dt data-i18n="cSupplyMaxL">满额总供应</dt><dd id="cSupplyMax" style="color:var(--green)">2,220,000,000,000 ASC</dd>
+        <dt data-i18n="cSupplyMintedL">已铸造（含 15% 预留）</dt><dd id="cSupplyMinted">—</dd>
+        <dt data-i18n="cSupplyMaxL">满额总供应（全部售出时）</dt><dd id="cSupplyMax" style="color:var(--green)">2,220,000,000,000 ASC</dd>
         <dt>USDT（BSC-USD）</dt><dd class="addr">0x55d398326f99059fF775485246999027B3197955</dd>
       </dl>
       <div class="supply-note" id="supplyNote">—</div>
@@ -793,7 +793,7 @@ zh: {
   connect:"连接钱包", connectStart:"扫码连接钱包",
   heroTag:"// AGENT 专属公平发射 · 链上实时遥测", heroTitle:"Agent 专属", heroTitle2:"份数阶梯",
   heroLead:"Agent Ascent (ASC) 是部署在 BNB Smart Chain 上的 Agent-ID 专属公平铸造代币：持 .ai Agent ID 方可铸造，无预挖、无 owner。价格每 10,000 份涨 0.1 USDT，满 10,000 份自动开池，LP 直接烧毁。下方遥测实时读自链上。",
-  bChain:"链", bToken:"代币", bDec:"位", bPer:"每份", bTokens:"枚", bOpen:"开池", bOpenV:"满 10,000 份", bMaxSupply:"满额总供应", bGate:"门禁", bGateV:"Agent ID (.ai) 专属",
+  bChain:"链", bToken:"代币", bDec:"位", bPer:"每份", bTokens:"枚", bOpen:"开池", bOpenV:"满 10,000 份", bMaxSupply:"满额总供应（全部售出时）", bGate:"门禁", bGateV:"Agent ID (.ai) 专属",
   mgTitle:"等值迁移 · FMA2 → ASC", mgLead:"旧 FMA2 的份数会在新合约上线后自动等值转入 ASC，全程无需你操作。下方可提前查询自己的迁移额度；新合约上线前，本页数据仍来自旧 FMA2。",
   mgAddrL:"输入地址或连接钱包，查询旧 FMA2 份数与等值迁移额度。", mgQuery:"查询", mgMe:"我的", mgOld:"旧 FMA2", mgNew:"新 ASC", mgSharesU:"份",
   mgAutoPending:"新合约上线后自动迁移 · 无需操作", mgAutoDone:"已自动迁移完成",
@@ -808,7 +808,7 @@ zh: {
   freeLeft:"免费截止：第 {cap} 个钱包 · 还剩 {left} 个名额", freeGone:"免费份已发完（{cap} 个钱包）",
   poolLeft:"还差 {left} 份开池 · 已完成 {pct}%", poolOpen:"已开池 · 铸造结束",
   minting:"铸造中", launched:"已开池", phaseSub:"T{p} · 未开池", phaseSubL:"T{p} · 已开池",
-  supplyMinted:"已铸造 / 已售出（含预留）", supplyMax:"满额总供应",
+  supplyMinted:"已铸造（含 15% 预留）", supplyMax:"满额总供应（全部售出时）",
   orderTitle:"下单铸造", orderIntro:"扫码连接币安 Agentic Wallet 后，即可免费领或购买。只读进度与权益查询无需钱包。",
   orderWallets:"",
   cNameV:"Agent Ascent · ASC（已上线）", cLegacyV:"旧合约：FairMint Arena (FMA2) · 0x30Bb…",
@@ -842,8 +842,8 @@ zh: {
   aiNote:"安全约束已写死：先 preview 后 execute（simulationCode 必须 000000000）、免费优先、不动私钥、不擅自买 P2 / 领分红。",
   promptState:"快照 {shares}/4,440,000 · 免费 {free}/1,000 · T{p} · {status}", promptMeta:"本次对应", promptBuy:"买", promptShares:"份", promptDue:"应付",
   rulesTitle:"规则（写死在合约里）",
-  contractTitle:"合约", cAddrL:"代币 / 铸造合约", cNameL:"名称 / 符号", cSupplyMintedL:"已铸造 / 已售出（含预留）", cSupplyMaxL:"满额总供应", cTokenPage:"代币页",
-  supplyNote:"口径说明：当前 <b>{minted}</b> 是已铸造量（= 已铸份额 × 500,000，含每份 75,000 预留），不是上限。满额总供应 <b>{max}</b> = 4,440,000 份 × 500,000。",
+  contractTitle:"合约", cAddrL:"代币 / 铸造合约", cNameL:"名称 / 符号", cSupplyMintedL:"已铸造（含 15% 预留）", cSupplyMaxL:"满额总供应（全部售出时）", cTokenPage:"代币页",
+  supplyNote:"口径说明：当前 <b>{minted}</b> 是已铸造量（= 已铸份额 × 500,000，含每份 75,000 预留），不是上限。满额总供应（全部售出时） <b>{max}</b> = 4,440,000 份 × 500,000。",
   cTechNote:"完整合约接口、常量与技术细节见白皮书（新标签页打开）。",
   footerNote:"数据实时读自链上合约 · 无价值承诺 · DYOR",
   bgm:"♪ 电子乐", loginTitle:"扫码登录 // SCAN TO LINK", loginLoading:"正在生成二维码…", loginScan:"用币安 App 扫码并确认配对", loginPairing:"配对码", loginRetry:"重新生成", loginFoot:"签名在币安 App 内完成 · 不触碰私钥",
@@ -875,7 +875,7 @@ en: {
   freeLeft:"Free cutoff: wallet #{cap} · {left} slots left", freeGone:"Free shares gone ({cap} wallets)",
   poolLeft:"{left} shares to pool open · {pct}% done", poolOpen:"Pool open · mint ended",
   minting:"Minting", launched:"Pool open", phaseSub:"T{p} · pre-launch", phaseSubL:"T{p} · launched",
-  supplyMinted:"Minted / sold (incl. reserve)", supplyMax:"Max total supply",
+  supplyMinted:"Minted (incl. 15% reserve)", supplyMax:"Max supply (if all sold)",
   orderTitle:"Mint Order", orderIntro:"Scan to link your Binance Agentic Wallet, then claim free or buy. Read-only progress and equity scan need no wallet.",
   orderWallets:"",
   cNameV:"Agent Ascent · ASC (live)", cLegacyV:"Legacy: FairMint Arena (FMA2) · 0x30Bb…",
@@ -909,8 +909,8 @@ en: {
   aiNote:"Safety baked in: preview before execute (simulationCode must be 000000000), free share first, no key access, no unsolicited P2 buys or dividend claims.",
   promptState:"Snapshot {shares}/4,440,000 · free {free}/1,000 · T{p} · {status}", promptMeta:"This prompt buys", promptBuy:"", promptShares:"shares", promptDue:"due",
   rulesTitle:"Rules (hard-coded in the contract)",
-  contractTitle:"Contract", cAddrL:"Token / mint contract", cNameL:"Name / symbol", cSupplyMintedL:"Minted / sold (incl. reserve)", cSupplyMaxL:"Max total supply", cTokenPage:"Token page",
-  supplyNote:"Reading the numbers: <b>{minted}</b> is the amount minted so far (= shares × 500,000, including the 75,000/share reserve), not a cap. Max total supply <b>{max}</b> = 4,440,000 shares × 500,000.",
+  contractTitle:"Contract", cAddrL:"Token / mint contract", cNameL:"Name / symbol", cSupplyMintedL:"Minted (incl. 15% reserve)", cSupplyMaxL:"Max supply (if all sold)", cTokenPage:"Token page",
+  supplyNote:"Reading the numbers: <b>{minted}</b> is the amount minted so far (= shares × 500,000, including the 75,000/share reserve), not a cap. Max supply (if all sold) <b>{max}</b> = 4,440,000 shares × 500,000.",
   cTechNote:"Full contract interface, constants and technical detail live in the whitepaper (opens in a new tab).",
   footerNote:"Data read live from the contract · no value promise · DYOR",
   bgm:"♪ BGM", loginTitle:"SCAN TO LINK", loginLoading:"Generating QR…", loginScan:"Scan with the Binance App and confirm pairing", loginPairing:"Pairing code", loginRetry:"Regenerate", loginFoot:"Local bridge only · AI-wallet exclusive · no key access",
