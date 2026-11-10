@@ -485,7 +485,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
           <div class="bridge-notice" id="bridgeNotice" hidden></div>
         </div>
         <div id="walletPanel">
-          <dl class="kv">
+          <dl class="kv" id="walletInfo" hidden>
             <dt data-i18n="wAddrL">我的地址</dt><dd class="addr" id="wAddr">—</dd>
             <dt data-i18n="wBnbL">BNB 余额</dt><dd id="wBnb">—</dd>
             <dt data-i18n="wUsdtL">USDT 余额</dt><dd id="wUsdt">—</dd>
@@ -494,7 +494,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
             <dt data-i18n="wFreeL">免费资格</dt><dd id="wFree">—</dd>
           </dl>
           <hr class="sep" />
-          <div class="freeband">
+          <div class="freeband" id="freeBand" hidden>
             <button class="btn green sm" id="freeBtn" data-i18n="freeBtn">免费领 1 份</button>
             <span class="hint" id="freeHint">—</span>
           </div>
@@ -1359,6 +1359,7 @@ async function checkBridge(){
 function setWallet(j){
   wallet = { connected:Boolean(j.connected), address:j.address||null, devModeActive:Boolean(j.devModeActive) };
   account = wallet.connected ? wallet.address : null;
+  $("walletInfo").hidden=!account; $("freeBand").hidden=!account;
   if(account){ $("noWallet").hidden=true; }
   else { $("noWallet").hidden=false; }
   $("walletPanel").hidden=false;
