@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>FairMint Arena · FMA2</title>
+<meta name="description" content="FairMint Arena (FMA2): a fair-launch token on BNB Smart Chain. Free share for the first 1,000 wallets, paid shares 0.00176 BNB / 1.2 USDT, pool opens at 10,000 shares. No owner, no presale allocation." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230c0b09%27/%3E%3Crect x=%277%27 y=%277%27 width=%2718%27 height=%2718%27 fill=%27none%27 stroke=%27%23f2a93b%27 stroke-width=%272%27/%3E%3Crect x=%2713%27 y=%2713%27 width=%276%27 height=%276%27 fill=%27%23f2a93b%27/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" /></noscript>
+<style>
+:root{
+  --bg:#0c0b09; --panel:#11100d; --raise:#17150f; --line:#2a2620; --line2:#1c1a16;
+  --fg:#e6e0d4; --muted:#8e877a; --dim:#5a554b; --amber:#f2a93b; --amber-d:#3b2810;
+  --green:#9fd38a; --red:#e08a7a;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,"Noto Sans SC","PingFang SC",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;line-height:1.6}
+[hidden]{display:none!important}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;font-size:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:1px dashed var(--amber);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.bar{position:sticky;top:0;z-index:6;border-bottom:1px solid var(--line);background:#0c0b09f0;backdrop-filter:blur(6px)}
+.bar .wrap{display:flex;align-items:center;gap:12px;padding-block:10px}
+.logo{display:inline-flex;align-items:center;font-size:14px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.logo i{display:inline-block;width:.5em;height:1em;margin-left:.15em;background:var(--amber);animation:blink 1.1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.logo i,.live i{animation:none}}
+.bar nav{display:flex;gap:2px;margin-left:auto}
+.bar nav a{color:var(--muted);padding:4px 7px;font-size:12.5px;white-space:nowrap}
+.bar nav a:hover{color:var(--amber);text-decoration:none}
+.lang{display:inline-flex;border:1px solid var(--line);flex:none}
+.lang button{background:transparent;border:0;color:var(--muted);padding:5px 10px;font-size:12px}
+.lang button[aria-pressed=true]{background:var(--amber-d);color:var(--amber)}
+.wbtn{flex:none;background:var(--amber);color:#1a1206;border:0;padding:6px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.wbtn:hover{filter:brightness(1.08)}
+.wbtn.on{background:transparent;color:var(--fg);border:1px solid var(--line);font-weight:500}
+.wbtn.on i{display:inline-block;width:7px;height:7px;background:var(--green);margin-right:7px;vertical-align:1px}
+@media (width<=860px){.bar nav{display:none}}
+section{padding:32px 0;border-bottom:1px solid var(--line2)}
+h1{font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:.01em}
+h2{font-size:15px;font-weight:600;margin:0 0 14px;color:var(--amber);letter-spacing:.04em}
+h2:before{content:"// ";color:var(--dim)}
+.lead{color:var(--muted);font-size:13.5px;max-width:70ch;margin:0 0 16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{border:1px solid var(--line);color:var(--muted);padding:3px 9px;font-size:11.5px}
+.badge b{color:var(--fg);font-weight:500}
+.card{background:var(--panel);border:1px solid var(--line2);padding:18px}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.cardhead h2{margin:0}
+.live{color:var(--dim);font-size:11px;white-space:nowrap}
+.live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s ease infinite}
+@keyframes pulse{50%{opacity:.35}}
+.dash{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;align-items:start}
+@media (width<=860px){.dash{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+@media (width<=520px){.grid{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--raise);border:1px solid var(--line2);padding:10px 12px}
+.stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}
+.stat b{display:block;font-size:18px;font-weight:600;line-height:1.25}
+.stat small{display:block;color:var(--dim);font-size:10.5px;margin-top:2px}
+.pblock{margin-top:14px}
+.prow{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted);margin-bottom:6px}
+.prow b{color:var(--fg);font-size:12.5px;font-weight:600}
+.pbar{position:relative;height:10px;background:var(--raise);border:1px solid var(--line2)}
+.pbar i{display:block;height:100%;background:var(--amber);width:0%;transition:width .4s}
+.pbar.free i{background:var(--green)}
+.pbar em{position:absolute;top:-3px;bottom:-3px;width:0;border-left:1px dashed var(--muted)}
+.pnote{color:var(--muted);font-size:11.5px;margin-top:6px}
+.plegend{display:flex;flex-wrap:wrap;gap:14px;color:var(--dim);font-size:10.5px;margin-top:10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:12px;margin:0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;color:var(--fg);word-break:break-all}
+.addr{font-size:12px;word-break:break-all}
+hr.sep{border:0;border-top:1px solid var(--line2);margin:14px 0}
+.freeband{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--raise);border:1px solid var(--line2);padding:10px 12px;margin-bottom:14px}
+.freeband .hint{margin:0}
+.btn{background:var(--amber);color:#1a1206;border:0;padding:11px 16px;font-size:13.5px;font-weight:600}
+.btn:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn.block{display:block;width:100%}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.stepper{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stepper .lbl{color:var(--muted);font-size:12px}
+.stepbtn{background:var(--raise);border:1px solid var(--line);color:var(--fg);width:34px;height:36px;font-size:16px;line-height:1}
+.stepbtn:hover{border-color:var(--amber);color:var(--amber)}
+.stepbtn:disabled{opacity:.4;cursor:not-allowed}
+input[type=number]{background:var(--raise);border:1px solid var(--line);color:var(--fg);font-family:inherit;font-size:14px;padding:8px 6px;width:64px;text-align:center}
+.seg{display:inline-flex;border:1px solid var(--line)}
+.seg button{background:transparent;border:0;color:var(--muted);padding:8px 16px;font-size:12.5px}
+.seg button[aria-pressed=true]{background:var(--amber-d);color:var(--amber)}
+.orderrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
+.summary{background:var(--raise);border:1px solid var(--line2);padding:12px 14px;margin-top:14px;font-size:12.5px}
+.summary .srow{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.summary .srow span{color:var(--muted)}
+.summary .srow b{font-weight:600;text-align:right}
+.summary .srow.total{border-top:1px solid var(--line2);margin-top:6px;padding-top:8px}
+.summary .srow.total b{color:var(--amber);font-size:15px}
+.summary .alt{color:var(--dim);font-size:11px;text-align:right;margin-top:2px}
+.msg{margin-top:12px;font-size:12px;color:var(--muted);word-break:break-all;min-height:1.4em}
+.msg.err{color:var(--red)}
+.msg.ok{color:var(--green)}
+.hint{color:var(--dim);font-size:11.5px;margin-top:8px}
+.warn{border:1px solid var(--amber-d);background:#1a140a;color:var(--muted);padding:12px 14px;font-size:12px;margin-top:16px}
+.warn b{color:var(--amber)}
+.phasemap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{border:1px solid var(--line);color:var(--dim);padding:4px 10px;font-size:11.5px}
+.chip.cur{border-color:var(--amber);color:var(--amber);background:var(--amber-d)}
+.chip.done{color:var(--muted);border-color:var(--line)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+thead th{color:var(--muted);font-weight:500;font-size:11.5px;border-bottom:1px solid var(--line)}
+td{color:var(--fg)}
+tr.cur td{background:#1a140a}
+tr.cur td:first-child{color:var(--amber);font-weight:600}
+.curtag{display:inline-block;margin-left:8px;border:1px solid var(--amber);color:var(--amber);font-size:10px;padding:0 5px;vertical-align:1px}
+.phnotes{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.phnote{flex:1 1 220px;background:var(--panel);border:1px solid var(--line2);padding:10px 12px;font-size:11.5px;color:var(--muted)}
+.phnote b{display:block;color:var(--fg);font-size:12px;margin-bottom:3px}
+.rules th{color:var(--muted);font-weight:500;width:26%}
+.prompt-card pre{margin:0;background:var(--bg);border:1px solid var(--line2);padding:14px;font-family:inherit;font-size:11.5px;line-height:1.65;color:var(--muted);max-height:340px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.prompt-state{color:var(--dim);font-size:11px}
+.links{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12.5px}
+code{background:var(--raise);border:1px solid var(--line2);padding:1px 5px;font-size:12px}
+.fnlist{margin:10px 0 0;padding:0;list-style:none;font-size:12px;color:var(--muted)}
+.fnlist li{padding:3px 0}
+.fnlist code{color:var(--fg)}
+footer{padding:26px 0 40px;color:var(--dim);font-size:11.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="wrap">
+    <span class="logo">FairMint Arena<i></i></span>
+    <nav>
+      <a href="#dashboard" data-i18n="navDash">总览</a>
+      <a href="#phases" data-i18n="navPhases">阶段</a>
+      <a href="#ai" data-i18n="navAI">AI 提示词</a>
+      <a href="#rules" data-i18n="navRules">规则</a>
+      <a href="#contract" data-i18n="navContract">合约</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="lzh" aria-pressed="true">中</button>
+      <button type="button" id="len" aria-pressed="false">EN</button>
+    </div>
+    <button class="wbtn" id="connBtn" data-i18n="connect">连接钱包</button>
+  </div>
+</div>
+
+<section id="top">
+  <div class="wrap">
+    <h1 data-i18n="heroTitle">公平铸造，满额开池</h1>
+    <p class="lead" data-i18n="heroLead">FMA2 是部署在 BNB Smart Chain 上的公平铸造代币。没有预挖、没有 owner 特权：前 1,000 个钱包各免费领 1 份，其余按固定价格购买；累计满 10,000 份自动开池。下面每个数字都实时读自合约。</p>
+    <div class="badges">
+      <span class="badge"><span data-i18n="bChain">链</span> <b>BNB Smart Chain · 56</b></span>
+      <span class="badge"><span data-i18n="bToken">代币</span> <b>FMA2 · 18 <span data-i18n="bDec">位</span></b></span>
+      <span class="badge"><span data-i18n="bPer">每份</span> <b>2,000 <span data-i18n="bTokens">枚</span></b></span>
+      <span class="badge"><span data-i18n="bOpen">开池</span> <b data-i18n="bOpenV">满 10,000 份</b></span>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard">
+  <div class="wrap">
+    <div class="dash">
+      <div class="card">
+        <div class="cardhead">
+          <h2 data-i18n="progressTitle">实时进度</h2>
+          <span class="live"><i></i><span data-i18n="live">LIVE · 15s</span> <span id="stamp"></span></span>
+        </div>
+        <div class="grid">
+          <div class="stat"><span data-i18n="stShares">已铸造份额</span><b id="sShares">—</b><small id="sSharesMax">/ 10,000</small></div>
+          <div class="stat"><span data-i18n="stFree">免费已领</span><b id="sFree">—</b><small id="sFreeMax">/ 1,000</small></div>
+          <div class="stat"><span data-i18n="stRaised">累计募集</span><b id="sRaised">—</b><small data-i18n="stRaisedNote">BNB + USDT 折算</small></div>
+          <div class="stat"><span data-i18n="stPhase">当前阶段</span><b id="sPhase">—</b><small id="sLaunch">—</small></div>
+        </div>
+        <div class="pblock">
+          <div class="prow"><span data-i18n="freeTitle">免费份额（前 1,000 个钱包）</span><b id="freeNum">—</b></div>
+          <div class="pbar free"><i id="freeBar"></i><em style="left:100%"></em></div>
+          <div class="pnote" id="freeNote">—</div>
+        </div>
+        <div class="pblock">
+          <div class="prow"><span data-i18n="poolTitle">开池进度（满 10,000 份）</span><b id="poolNum">—</b></div>
+          <div class="pbar"><i id="poolBar"></i><em id="freeTick" style="left:10%"></em><em style="left:100%"></em></div>
+          <div class="pnote" id="poolNote">—</div>
+        </div>
+        <div class="plegend">
+          <span data-i18n="legendFree">┆ 虚线 = 免费上限（1,000 份处截止）</span>
+          <span data-i18n="legendEnd">▏右端 = 开池阈值</span>
+        </div>
+      </div>
+
+      <div class="card" id="order">
+        <h2 data-i18n="orderTitle">下单铸造</h2>
+        <div id="noWallet">
+          <p class="hint" style="margin-top:0" data-i18n="orderIntro">连接钱包后即可免费领或购买。只读进度无需钱包。</p>
+          <button class="btn block" id="connectBtn2" data-i18n="connectStart">连接钱包开始</button>
+          <p class="hint" data-i18n="orderWallets">支持 MetaMask / 币安钱包等注入式钱包，自动切换 BSC 主网。无需任何 Agent ID。</p>
+        </div>
+        <div id="walletPanel" hidden>
+          <dl class="kv">
+            <dt data-i18n="wAddrL">我的地址</dt><dd class="addr" id="wAddr">—</dd>
+            <dt data-i18n="wBalL">FMA2 余额</dt><dd id="wBal">—</dd>
+            <dt data-i18n="wSharesL">已铸 / 付费</dt><dd id="wShares">—</dd>
+            <dt data-i18n="wFreeL">免费资格</dt><dd id="wFree">—</dd>
+          </dl>
+          <hr class="sep" />
+          <div class="freeband">
+            <button class="btn sm" id="freeBtn" data-i18n="freeBtn">免费领 1 份（2,000 枚）</button>
+            <span class="hint" id="freeHint">—</span>
+          </div>
+          <div class="orderrow">
+            <div class="stepper">
+              <span class="lbl" data-i18n="paidN">付费份数</span>
+              <button class="stepbtn" id="minus" type="button" aria-label="decrease">−</button>
+              <input type="number" id="paidNInput" min="1" max="10" step="1" value="1" />
+              <button class="stepbtn" id="plus" type="button" aria-label="increase">+</button>
+            </div>
+            <span class="seg" role="group" aria-label="asset">
+              <button id="payBnb" aria-pressed="true">BNB</button>
+              <button id="payUsdt" aria-pressed="false">USDT</button>
+            </span>
+          </div>
+          <div class="summary">
+            <div class="srow"><span data-i18n="sumShares">购买份数</span><b id="sumShares">—</b></div>
+            <div class="srow"><span data-i18n="sumTokens">获得代币</span><b id="sumTokens">—</b></div>
+            <div class="srow total"><span data-i18n="sumCost">应付金额</span><b id="sumCost">—</b></div>
+            <div class="alt" id="sumAlt"></div>
+          </div>
+          <div style="margin-top:14px">
+            <button class="btn block" id="buyBtn">—</button>
+            <div class="hint" id="buyHint"></div>
+          </div>
+          <hr class="sep" />
+          <div class="orderrow" style="margin-top:0">
+            <button class="btn ghost sm" id="refundBtn" data-i18n="refundBtn">退款（开池前）</button>
+            <span class="hint" style="margin:0" data-i18n="refundHint">铸造满 24 小时后可 100% 退；开池后不可退。</span>
+          </div>
+        </div>
+        <div class="msg" id="msg"></div>
+      </div>
+    </div>
+    <div class="warn"><b data-i18n="riskT">风险提示：</b><span data-i18n="riskV">开池后不能退款；代币价格由市场决定，可能归零。免费份仅付 gas，付费份请只用亏得起的钱。本页不构成任何价值承诺。</span></div>
+  </div>
+</section>
+
+<section id="phases">
+  <div class="wrap">
+    <h2 data-i18n="phasesTitle">阶段路线 P0 → P8</h2>
+    <p class="lead" id="phaseLead">—</p>
+    <div class="phasemap" id="phaseMap"></div>
+    <table>
+      <thead><tr>
+        <th data-i18n="phPhase">阶段</th>
+        <th data-i18n="phTrig">触发条件</th>
+        <th data-i18n="phMode">买入方式</th>
+        <th data-i18n="phPrice">价格</th>
+        <th data-i18n="phFee">团队费</th>
+      </tr></thead>
+      <tbody id="phaseBody"></tbody>
+    </table>
+    <div class="phnotes">
+      <div class="phnote"><b data-i18n="pn1t">卖出税（防狙击）</b><span data-i18n="pn1v">开池后 2 小时内从 80% 线性降到 0。</span></div>
+      <div class="phnote"><b data-i18n="pn2t">早鸟解锁</b><span data-i18n="pn2v">第 1 天最多卖 61%，7 天全部解锁。</span></div>
+      <div class="phnote"><b data-i18n="pn3t">退款窗口</b><span data-i18n="pn3v">本钱包铸造满 24 小时后可 100% 退款；开池后关闭。</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="wrap">
+    <h2 data-i18n="aiTitle">AI 提示词 · 一键复制</h2>
+    <p class="lead" data-i18n="aiLead">把下面这段提示词复制给你的 AI 助手（如币安 Agentic Wallet / baw CLI），它会先做只读检查、给出预览，等你说「执行」才发交易。提示词已自动填入当前链上状态。</p>
+    <div class="card prompt-card">
+      <div class="cardhead">
+        <span class="prompt-state" id="promptState">—</span>
+        <button class="btn ghost sm" id="copyBtn" data-i18n="copy">复制提示词</button>
+      </div>
+      <pre id="promptBox"></pre>
+      <div class="hint" data-i18n="aiNote">安全约束已写死在提示词里：先 preview 后 execute、免费优先、付费默认最多 2 份、不动私钥、不擅自买 P2 / 领分红。</div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <h2 data-i18n="rulesTitle">规则（全部写死在合约里）</h2>
+    <table class="rules"><tbody id="rulesBody"></tbody></table>
+  </div>
+</section>
+
+<section id="contract">
+  <div class="wrap">
+    <h2 data-i18n="contractTitle">合约</h2>
+    <dl class="kv">
+      <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x30BbED35e8ea52700338869e66Ae2Be139932dd1</dd>
+      <dt data-i18n="cNameL">名称 / 符号</dt><dd>FairMint Arena · FMA2</dd>
+      <dt data-i18n="cSupplyL">总供应量</dt><dd id="cSupply">—</dd>
+      <dt>USDT（BSC-USD）</dt><dd class="addr">0x55d398326f99059fF775485246999027B3197955</dd>
+    </dl>
+    <div class="links">
+      <a href="https://bscscan.com/address/0x30BbED35e8ea52700338869e66Ae2Be139932dd1#code" target="_blank" rel="noopener">BscScan ↗</a>
+      <a href="https://bscscan.com/token/0x30BbED35e8ea52700338869e66Ae2Be139932dd1" target="_blank" rel="noopener"><span data-i18n="cTokenPage">代币页</span> ↗</a>
+      <a href="https://github.com/BaneWong" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <ul class="fnlist">
+      <li><code>mint(uint8 shares, bool useUsdt)</code> payable — <span data-i18n="fn1">shares 为总份数（含免费首份），1–10</span></li>
+      <li><code>refund()</code> — <span data-i18n="fn2">铸造满 24h 后、开池前退款</span></li>
+      <li><code>buy(uint256 minTokens)</code> payable — <span data-i18n="fn3">开池后按市价买</span></li>
+      <li><code>claimDividends()</code> / <code>checkMilestones()</code> — <span data-i18n="fn4">开池后分红 / 里程碑</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>FairMint Arena · FMA2 · BNB Smart Chain</span>
+    <span data-i18n="footerNote">数据实时读自链上合约 · 无价值承诺 · DYOR</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>
+const CONTRACT = "0x30BbED35e8ea52700338869e66Ae2Be139932dd1";
+const USDT = "0x55d398326f99059fF775485246999027B3197955";
+const ABI = [
+  "function totalShares() view returns (uint256)",
+  "function MAX_SHARES() view returns (uint256)",
+  "function freeCount() view returns (uint256)",
+  "function FREE_CAP() view returns (uint256)",
+  "function PRICE_BNB() view returns (uint256)",
+  "function PRICE_USDT() view returns (uint256)",
+  "function TOKENS_PER_SHARE() view returns (uint256)",
+  "function MAX_PAID_PER_WALLET() view returns (uint256)",
+  "function launched() view returns (bool)",
+  "function phase() view returns (uint256)",
+  "function totalRaised() view returns (uint256)",
+  "function bnbRaised() view returns (uint256)",
+  "function usdtRaised() view returns (uint256)",
+  "function totalSupply() view returns (uint256)",
+  "function balanceOf(address) view returns (uint256)",
+  "function mintedShares(address) view returns (uint256)",
+  "function paidShares(address) view returns (uint256)",
+  "function freeUsed(address) view returns (bool)",
+  "function mint(uint8 shares, bool useUsdt) payable",
+  "function refund()",
+];
+const USDT_ABI = [
+  "function approve(address spender, uint256 amount) returns (bool)",
+  "function allowance(address owner, address spender) view returns (uint256)",
+];
+const RPCS = [
+  "https://bsc-rpc.publicnode.com",
+  "https://1rpc.io/bnb",
+  "https://bsc.blockrazor.xyz",
+  "https://bsc-dataseed.bnbchain.org",
+];
+const BSC = { chainId:"0x38", chainName:"BNB Smart Chain", nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18}, rpcUrls:RPCS, blockExplorerUrls:["https://bscscan.com"] };
+const BNB_PRICE_USD = 690; // 仅用于展示折算，非交易依据
+const NET_PER_SHARE = 1700; // 每份到手 1,700，300 进预留（合约写死）
+
+const I18N = {
+zh: {
+  navDash:"总览", navPhases:"阶段", navAI:"AI 提示词", navRules:"规则", navContract:"合约",
+  connect:"连接钱包", connected:"已连接",
+  heroTitle:"公平铸造，满额开池",
+  heroLead:"FMA2 是部署在 BNB Smart Chain 上的公平铸造代币。没有预挖、没有 owner 特权：前 1,000 个钱包各免费领 1 份，其余按固定价格购买；累计满 10,000 份自动开池。下面每个数字都实时读自合约。",
+  bChain:"链", bToken:"代币", bDec:"位", bPer:"每份", bTokens:"枚", bOpen:"开池", bOpenV:"满 10,000 份",
+  progressTitle:"实时进度", live:"LIVE · 15s",
+  stShares:"已铸造份额", stFree:"免费已领", stRaised:"累计募集", stRaisedNote:"BNB + USDT 折算", stPhase:"当前阶段",
+  freeTitle:"免费份额（前 1,000 个钱包）", poolTitle:"开池进度（满 10,000 份）",
+  legendFree:"┆ 虚线 = 免费上限（1,000 份处截止）", legendEnd:"▏右端 = 开池阈值",
+  freeLeft:"免费截止：第 {cap} 个钱包 · 还剩 {left} 个名额", freeGone:"免费份已发完（{cap} 个钱包）",
+  poolLeft:"还差 {left} 份开池 · 已完成 {pct}%", poolOpen:"已开池 · 铸造结束",
+  minting:"铸造中", launched:"已开池", phaseSub:"P{p} · 未开池", phaseSubL:"P{p} · 市价交易",
+  orderTitle:"下单铸造", orderIntro:"连接钱包后即可免费领或购买。只读进度无需钱包。",
+  connectStart:"连接钱包开始", orderWallets:"支持 MetaMask / 币安钱包等注入式钱包，自动切换 BSC 主网。无需任何 Agent ID。",
+  wAddrL:"我的地址", wBalL:"FMA2 余额", wSharesL:"已铸 / 付费", wFreeL:"免费资格",
+  wSharesV:"{m} 份已铸 / {p} 份付费", wFreeYes:"可领 1 份", wFreeUsed:"已用过", wFreeNo:"不可领（已满或已开池）",
+  freeBtn:"免费领 1 份（2,000 枚）", freeHintYes:"价值 0 BNB，仅付 gas。", freeHintUsed:"此钱包已领过免费份。", freeHintGone:"免费份已发完或已开池。",
+  paidN:"付费份数", sumShares:"购买份数", sumTokens:"获得代币", sumCost:"应付金额",
+  sumSharesV:"{n} 份", sumSharesBonus:"{n} 份 + 1 免费", sumTokensV:"{gross} 枚（到手 {net}）",
+  sumAlt:"或 {alt} {unit} · 约 ${usd}", sumAltUsdt:"或 {alt} BNB · 约 ${usd}",
+  buyBtn:"购买 · {cost} {unit}", buyHintCap:"份数上限 {cap}（每钱包最多 10 份付费{bonusNote}）",
+  bonusNote:"，含免费首份时单程最多 9 份付费", buyHintMax:"付费份已达上限（10 份）。", buyHintLaunched:"已开池，铸造结束。请到 DEX 按市价交易。",
+  refundBtn:"退款（开池前）", refundHint:"铸造满 24 小时后可 100% 退；开池后不可退。",
+  riskT:"风险提示：", riskV:"开池后不能退款；代币价格由市场决定，可能归零。免费份仅付 gas，付费份请只用亏得起的钱。本页不构成任何价值承诺。",
+  phasesTitle:"阶段路线 P0 → P8",
+  phaseLead:"当前阶段：P{p}（{name}）。P0 固定价铸造，满 10,000 份自动进入 P1 开池；之后市价买入量每累计满 1 BNB 自动推进一阶段，团队费逐级递减至 0。",
+  phPhase:"阶段", phTrig:"触发条件", phMode:"买入方式", phPrice:"价格", phFee:"团队费",
+  cur:"当前", market:"市价", fixed:"固定价",
+  pn1t:"卖出税（防狙击）", pn1v:"开池后 2 小时内从 80% 线性降到 0。",
+  pn2t:"早鸟解锁", pn2v:"第 1 天最多卖 61%，7 天全部解锁。",
+  pn3t:"退款窗口", pn3v:"本钱包铸造满 24 小时后可 100% 退款；开池后关闭。",
+  aiTitle:"AI 提示词 · 一键复制",
+  aiLead:"把下面这段提示词复制给你的 AI 助手（如币安 Agentic Wallet / baw CLI），它会先做只读检查、给出预览，等你说「执行」才发交易。提示词已自动填入当前链上状态。",
+  copy:"复制提示词", copied:"已复制 ✓", copyFail:"复制失败，请手动全选复制",
+  aiNote:"安全约束已写死在提示词里：先 preview 后 execute、免费优先、付费默认最多 2 份、不动私钥、不擅自买 P2 / 领分红。",
+  promptState:"链上快照：{shares}/10,000 份 · 免费 {free}/1,000 · P{p} · {status}",
+  rulesTitle:"规则（全部写死在合约里）",
+  contractTitle:"合约", cAddrL:"代币 / 铸造合约", cNameL:"名称 / 符号", cSupplyL:"总供应量", cTokenPage:"代币页",
+  fn1:"shares 为总份数（含免费首份），1–10", fn2:"铸造满 24h 后、开池前退款", fn3:"开池后按市价买", fn4:"开池后分红 / 里程碑",
+  footerNote:"数据实时读自链上合约 · 无价值承诺 · DYOR",
+  msgNoWallet:"没有检测到钱包，请用 MetaMask / 币安钱包浏览器打开。",
+  msgConnected:"已连接 {addr}", msgConfirm:"请在钱包中确认交易…", msgSubmitted:"已提交 {hash}… 等待确认",
+  msgFreeOk:"免费铸造成功", msgBuyOk:"购买成功", msgRefundOk:"退款成功", msgApprove:"请先授权 USDT…",
+  msgApproveSent:"授权提交 {hash}… 等待确认", msgReadFail:"读取失败：{e}", msgRange:"份数需在 1–{cap} 之间。",
+  msgAllRpc:"所有 RPC 都连不上，请检查网络",
+},
+en: {
+  navDash:"Overview", navPhases:"Phases", navAI:"AI Prompt", navRules:"Rules", navContract:"Contract",
+  connect:"Connect Wallet", connected:"Connected",
+  heroTitle:"Fair mint. Full pool.",
+  heroLead:"FMA2 is a fair-launch token on BNB Smart Chain. No premine, no owner privileges: the first 1,000 wallets each claim 1 free share, the rest buy at a fixed price; the pool opens automatically at 10,000 shares. Every number below is read live from the contract.",
+  bChain:"Chain", bToken:"Token", bDec:"dec", bPer:"Per share", bTokens:"tokens", bOpen:"Pool opens", bOpenV:"at 10,000 shares",
+  progressTitle:"Live Progress", live:"LIVE · 15s",
+  stShares:"Shares minted", stFree:"Free claimed", stRaised:"Total raised", stRaisedNote:"BNB + USDT in USD", stPhase:"Current phase",
+  freeTitle:"Free shares (first 1,000 wallets)", poolTitle:"Pool progress (opens at 10,000)",
+  legendFree:"┆ dashed = free cap (cutoff at 1,000)", legendEnd:"▏right end = pool-open threshold",
+  freeLeft:"Free cutoff: wallet #{cap} · {left} slots left", freeGone:"Free shares gone ({cap} wallets)",
+  poolLeft:"{left} shares to pool open · {pct}% done", poolOpen:"Pool open · mint ended",
+  minting:"Minting", launched:"Pool open", phaseSub:"P{p} · pre-launch", phaseSubL:"P{p} · market trading",
+  orderTitle:"Mint Order", orderIntro:"Connect a wallet to claim free or buy. Read-only progress needs no wallet.",
+  connectStart:"Connect wallet to start", orderWallets:"Works with MetaMask / Binance Wallet and other injected wallets; auto-switches to BSC mainnet. No Agent ID required.",
+  wAddrL:"My address", wBalL:"FMA2 balance", wSharesL:"Minted / paid", wFreeL:"Free eligibility",
+  wSharesV:"{m} minted / {p} paid", wFreeYes:"1 free share available", wFreeUsed:"Already used", wFreeNo:"Not eligible (cap reached or launched)",
+  freeBtn:"Claim 1 free share (2,000)", freeHintYes:"Costs 0 BNB, gas only.", freeHintUsed:"This wallet already claimed its free share.", freeHintGone:"Free shares gone or pool already open.",
+  paidN:"Paid shares", sumShares:"Shares buying", sumTokens:"Tokens received", sumCost:"Amount due",
+  sumSharesV:"{n}", sumSharesBonus:"{n} + 1 free", sumTokensV:"{gross} (net {net})",
+  sumAlt:"or {alt} {unit} · ≈ ${usd}", sumAltUsdt:"or {alt} BNB · ≈ ${usd}",
+  buyBtn:"Buy · {cost} {unit}", buyHintCap:"Max {cap} shares (10 paid per wallet{bonusNote})",
+  bonusNote:", max 9 paid per tx when the free first share applies", buyHintMax:"Paid share cap reached (10).", buyHintLaunched:"Pool is open; mint has ended. Trade at market price on the DEX.",
+  refundBtn:"Refund (pre-launch)", refundHint:"100% refund after 24h from your mint; closed once the pool opens.",
+  riskT:"Risk notice: ", riskV:"No refunds after the pool opens; the token price is set by the market and can go to zero. Free shares cost gas only; for paid shares use only money you can afford to lose. Nothing here is a promise of value.",
+  phasesTitle:"Phase Roadmap P0 → P8",
+  phaseLead:"Current phase: P{p} ({name}). P0 mints at a fixed price; at 10,000 shares the pool opens into P1. After that, every cumulative 1 BNB of market buys advances one phase, and the team fee steps down to 0.",
+  phPhase:"Phase", phTrig:"Trigger", phMode:"Buy via", phPrice:"Price", phFee:"Team fee",
+  cur:"NOW", market:"Market", fixed:"Fixed",
+  pn1t:"Sell tax (anti-snipe)", pn1v:"Decays linearly from 80% to 0 within 2h after pool open.",
+  pn2t:"Early-bird unlock", pn2v:"Max 61% sellable on day 1; fully unlocked after 7 days.",
+  pn3t:"Refund window", pn3v:"100% refund once 24h have passed since your mint; closes at pool open.",
+  aiTitle:"AI Prompt · One-click Copy",
+  aiLead:"Copy the prompt below into your AI assistant (e.g. Binance Agentic Wallet / baw CLI). It runs read-only checks and shows a preview first, and only sends a transaction after you say “execute”. Current on-chain state is filled in automatically.",
+  copy:"Copy prompt", copied:"Copied ✓", copyFail:"Copy failed — select all and copy manually",
+  aiNote:"Safety constraints are baked in: preview before execute, free share first, paid capped at 2 by default, no key access, no unsolicited P2 buys or dividend claims.",
+  promptState:"On-chain snapshot: {shares}/10,000 shares · free {free}/1,000 · P{p} · {status}",
+  rulesTitle:"Rules (all hard-coded in the contract)",
+  contractTitle:"Contract", cAddrL:"Token / mint contract", cNameL:"Name / symbol", cSupplyL:"Total supply", cTokenPage:"Token page",
+  fn1:"shares = total incl. free first share, 1–10", fn2:"refund after 24h from mint, before launch", fn3:"market buy after pool open", fn4:"post-launch dividends / milestones",
+  footerNote:"Data read live from the contract · no value promise · DYOR",
+  msgNoWallet:"No wallet detected. Open with MetaMask / Binance Wallet browser.",
+  msgConnected:"Connected {addr}", msgConfirm:"Confirm the transaction in your wallet…", msgSubmitted:"Submitted {hash}… awaiting confirmation",
+  msgFreeOk:"Free mint succeeded", msgBuyOk:"Purchase succeeded", msgRefundOk:"Refund succeeded", msgApprove:"Approving USDT first…",
+  msgApproveSent:"Approval submitted {hash}… awaiting confirmation", msgReadFail:"Read failed: {e}", msgRange:"Shares must be 1–{cap}.",
+  msgAllRpc:"All RPCs unreachable — check your network",
+}};
+
+const PHASES = [
+  {p:0, zh:{name:"铸造期", trig:"满 10,000 份之前", mode:"mint() 固定价", price:"0.00176 BNB / 1.2 USDT"},
+        en:{name:"Minting", trig:"Before 10,000 shares", mode:"mint() fixed", price:"0.00176 BNB / 1.2 USDT"}, fee:"0%"},
+  {p:1, zh:{name:"开池", trig:"满 10,000 份自动开池", mode:"市价 buy()", price:"市价"},
+        en:{name:"Pool open", trig:"Auto at 10,000 shares", mode:"buy() market", price:"Market"}, fee:"0%"},
+  {p:2, zh:{name:"市价 I", trig:"市价买入累计满 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market I", trig:"1 BNB cumulative market buys", mode:"buy() market", price:"Market"}, fee:"9%"},
+  {p:3, zh:{name:"市价 II", trig:"再累计 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market II", trig:"+1 BNB more", mode:"buy() market", price:"Market"}, fee:"6%"},
+  {p:4, zh:{name:"市价 III", trig:"再累计 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market III", trig:"+1 BNB more", mode:"buy() market", price:"Market"}, fee:"4%"},
+  {p:5, zh:{name:"市价 IV", trig:"再累计 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market IV", trig:"+1 BNB more", mode:"buy() market", price:"Market"}, fee:"2%"},
+  {p:6, zh:{name:"市价 V", trig:"再累计 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market V", trig:"+1 BNB more", mode:"buy() market", price:"Market"}, fee:"1%"},
+  {p:7, zh:{name:"市价 VI", trig:"再累计 1 BNB", mode:"市价 buy()", price:"市价"},
+        en:{name:"Market VI", trig:"+1 BNB more", mode:"buy() market", price:"Market"}, fee:"1%"},
+  {p:8, zh:{name:"终局", trig:"再累计 1 BNB（封顶）", mode:"市价 buy()", price:"市价"},
+        en:{name:"Final", trig:"+1 BNB more (cap)", mode:"buy() market", price:"Market"}, fee:"0%"},
+];
+
+const RULES = [
+  {zh:["单价","0.00176 BNB 或 1.2 USDT / 份（PRICE_BNB / PRICE_USDT）"], en:["Unit price","0.00176 BNB or 1.2 USDT per share (PRICE_BNB / PRICE_USDT)"]},
+  {zh:["每份铸造","2,000 枚，其中 1,700 枚到手、300 枚进预留（TOKENS_PER_SHARE）"], en:["Per share","2,000 tokens: 1,700 to you, 300 to reserve (TOKENS_PER_SHARE)"]},
+  {zh:["免费份","前 1,000 个钱包各免费 1 份（freeCount < FREE_CAP，每钱包一次）"], en:["Free share","First 1,000 wallets get 1 free share each (freeCount < FREE_CAP, once per wallet)"]},
+  {zh:["付费上限","每钱包最多 10 份付费（MAX_PAID_PER_WALLET）"], en:["Paid cap","Max 10 paid shares per wallet (MAX_PAID_PER_WALLET)"]},
+  {zh:["开池条件","累计满 10,000 份开池（MAX_SHARES）；90% 募集进 LP（LP_BPS）"], en:["Pool open","Opens at 10,000 shares (MAX_SHARES); 90% of raises go to LP (LP_BPS)"]},
+  {zh:["退款","本钱包铸造满 24 小时后可 100% 退款（refund()）；开池后不可退"], en:["Refund","100% refund once 24h pass since your mint (refund()); closed after pool open"]},
+  {zh:["卖出税","开池后 2 小时内从 80% 线性降到 0（防狙击）"], en:["Sell tax","80% → 0 linearly within 2h after pool open (anti-snipe)"]},
+  {zh:["早鸟解锁","第 1 天最多卖 61%，7 天全部解锁"], en:["Early-bird unlock","Max 61% sellable day 1; fully unlocked after 7 days"]},
+  {zh:["团队费","P2 起按市价买收团队费，随阶段 9/6/4/2/1/1/0%；每累计 1 BNB 买入推进一阶段"], en:["Team fee","Market buys from P2 pay a team fee stepping 9/6/4/2/1/1/0%; each cumulative 1 BNB of buys advances a phase"]},
+  {zh:["权限","无 owner、无暂停、无预挖；合约地址即代币地址"], en:["Privileges","No owner, no pause, no premine; contract address is the token address"]},
+];
+
+let lang = localStorage.getItem("fma2-lang") === "en" ? "en" : "zh";
+const t = (k, v) => {
+  let s = (I18N[lang] && I18N[lang][k]) ?? I18N.zh[k] ?? k;
+  if(v) for(const key in v) s = s.split("{"+key+"}").join(v[key]);
+  return s;
+};
+
+let readProvider, readContract, provider, signer, account, contract;
+let state = {};
+let payAsset = "BNB";
+const $ = (id) => document.getElementById(id);
+const msg = (txt, cls="") => { const m=$("msg"); m.textContent=txt; m.className="msg "+cls; };
+const short = (a) => a.slice(0,6)+"…"+a.slice(-4);
+const fmt = (n, d=4) => Number(ethers.formatEther(n)).toLocaleString("en-US",{maximumFractionDigits:d});
+const loc = (n) => Number(n).toLocaleString("en-US");
+
+function applyStatic(){
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  $("lzh").setAttribute("aria-pressed", String(lang==="zh"));
+  $("len").setAttribute("aria-pressed", String(lang==="en"));
+  if(account){ $("connBtn").className = "wbtn on"; $("connBtn").innerHTML = "<i></i>"+short(account); }
+  else { $("connBtn").className = "wbtn"; $("connBtn").textContent = t("connect"); }
+}
+
+function setLang(l){
+  lang = l;
+  localStorage.setItem("fma2-lang", l);
+  applyStatic();
+  renderAll();
+}
+
+function freeEligible(){
+  return !state.launched && !state.freeUsed && state.free < state.freeCap;
+}
+
+function renderStats(){
+  if(state.shares === undefined) return;
+  $("sShares").textContent = loc(state.shares);
+  $("sSharesMax").textContent = "/ "+loc(state.max);
+  $("sFree").textContent = loc(state.free);
+  $("sFreeMax").textContent = "/ "+loc(state.freeCap);
+  const raisedUsd = Number(ethers.formatEther(state.bnbR))*BNB_PRICE_USD + Number(ethers.formatEther(state.usdtR));
+  $("sRaised").textContent = "$"+raisedUsd.toLocaleString("en-US",{maximumFractionDigits:0});
+  const p = Number(state.phase);
+  $("sPhase").textContent = "P"+p;
+  $("sLaunch").textContent = state.launched ? t("phaseSubL",{p}) : t("phaseSub",{p});
+  $("cSupply").textContent = fmt(state.supply,0)+" FMA2";
+
+  const fPct = state.freeCap>0n ? Number(state.free*10000n/state.freeCap)/100 : 0;
+  $("freeBar").style.width = Math.min(fPct,100)+"%";
+  $("freeNum").textContent = loc(state.free)+" / "+loc(state.freeCap);
+  $("freeNote").textContent = state.free >= state.freeCap
+    ? t("freeGone",{cap:loc(state.freeCap)})
+    : t("freeLeft",{cap:loc(state.freeCap), left:loc(state.freeCap-state.free)});
+
+  const pct = state.max>0n ? Number(state.shares*10000n/state.max)/100 : 0;
+  $("poolBar").style.width = Math.min(pct,100)+"%";
+  $("poolNum").textContent = loc(state.shares)+" / "+loc(state.max);
+  $("freeTick").style.left = (state.max>0n ? Number(state.freeCap*10000n/state.max)/100 : 10)+"%";
+  $("poolNote").textContent = state.launched ? t("poolOpen") : t("poolLeft",{left:loc(state.max-state.shares), pct:pct.toFixed(2)});
+  $("stamp").textContent = new Date().toLocaleTimeString(lang==="zh"?"zh-CN":"en-US",{hour12:false});
+}
+
+function renderWallet(){
+  if(!account || state.minted === undefined) return;
+  $("wAddr").textContent = account;
+  $("wBal").textContent = fmt(state.bal,0)+" FMA2";
+  $("wShares").textContent = t("wSharesV",{m:loc(state.minted), p:loc(state.paid)});
+  const eligible = freeEligible();
+  $("wFree").textContent = state.freeUsed ? t("wFreeUsed") : (eligible ? t("wFreeYes") : t("wFreeNo"));
+  $("freeBtn").disabled = !eligible || state.launched;
+  $("freeHint").textContent = state.freeUsed ? t("freeHintUsed") : (eligible ? t("freeHintYes") : t("freeHintGone"));
+  $("refundBtn").disabled = state.launched;
+}
+
+function orderCap(){
+  const remaining = Number(state.maxPaid - (state.paid ?? 0n));
+  const bonus = freeEligible() ? 1 : 0;
+  return {remaining, bonus, cap: Math.max(0, Math.min(remaining, bonus ? 9 : 10))};
+}
+
+function renderOrder(){
+  if(!account || state.pBnb === undefined || state.minted === undefined) return;
+  const {remaining, bonus, cap} = orderCap();
+  const inp = $("paidNInput");
+  inp.max = Math.max(1, cap);
+  let n = parseInt(inp.value||"1",10);
+  if(!(n>=1)) n = 1;
+  if(n>cap) n = cap;
+  if(n>=1 && document.activeElement!==inp && inp.value!==String(n)) inp.value = n;
+  const disabled = state.launched || remaining<=0;
+  inp.disabled = disabled; $("minus").disabled = disabled || n<=1; $("plus").disabled = disabled || n>=cap;
+  $("buyBtn").disabled = disabled;
+  if(state.launched){ $("buyHint").textContent = t("buyHintLaunched"); $("buyBtn").textContent = t("poolOpen"); $("sumShares").textContent=$("sumTokens").textContent=$("sumCost").textContent="—"; $("sumAlt").textContent=""; return; }
+  if(remaining<=0){ $("buyHint").textContent = t("buyHintMax"); }
+  else { $("buyHint").textContent = t("buyHintCap",{cap, bonusNote: bonus ? t("bonusNote") : ""}); }
+
+  const price = payAsset==="BNB" ? state.pBnb : state.pUsdt;
+  const altPrice = payAsset==="BNB" ? state.pUsdt : state.pBnb;
+  const cost = price * BigInt(n);
+  const alt = altPrice * BigInt(n);
+  const unit = payAsset;
+  const total = n + bonus;
+  const gross = total * 2000, net = total * NET_PER_SHARE;
+  const usd = payAsset==="BNB" ? Number(ethers.formatEther(cost))*BNB_PRICE_USD : Number(ethers.formatEther(cost));
+  $("sumShares").textContent = bonus ? t("sumSharesBonus",{n}) : t("sumSharesV",{n});
+  $("sumTokens").textContent = t("sumTokensV",{gross:loc(gross), net:loc(net)});
+  $("sumCost").textContent = fmt(cost,6)+" "+unit;
+  $("sumAlt").textContent = payAsset==="BNB" ? t("sumAlt",{alt:fmt(alt,2), unit:"USDT", usd:usd.toFixed(2)}) : t("sumAltUsdt",{alt:fmt(alt,6), usd:usd.toFixed(2)});
+  $("buyBtn").textContent = t("buyBtn",{cost:fmt(cost,6), unit});
+}
+
+function renderPhases(){
+  const p = state.phase !== undefined ? Number(state.phase) : 0;
+  const cur = PHASES[Math.min(p, PHASES.length-1)];
+  $("phaseLead").textContent = t("phaseLead",{p, name:cur[lang].name});
+  $("phaseMap").innerHTML = PHASES.map(x =>
+    `<span class="chip ${x.p===p?"cur":(x.p<p?"done":"")}">P${x.p}</span>`).join("");
+  $("phaseBody").innerHTML = PHASES.map(x => {
+    const d = x[lang];
+    const price = x.p===0 ? d.price : t("market");
+    const mode = x.p===0 ? (lang==="zh"?"mint() 固定价":"mint() fixed") : (lang==="zh"?"市价 buy()":"buy() market");
+    return `<tr class="${x.p===p?"cur":""}"><td>P${x.p} · ${d.name}${x.p===p?`<span class="curtag">${t("cur")}</span>`:""}</td><td>${d.trig}</td><td>${mode}</td><td>${price}</td><td>${x.fee}</td></tr>`;
+  }).join("");
+}
+
+function renderRules(){
+  $("rulesBody").innerHTML = RULES.map(r => {
+    const [k,v] = r[lang];
+    return `<tr><th>${k}</th><td>${v}</td></tr>`;
+  }).join("");
+}
+
+function promptText(){
+  const shares = state.shares !== undefined ? loc(state.shares) : "?";
+  const free = state.free !== undefined ? loc(state.free) : "?";
+  const p = state.phase !== undefined ? Number(state.phase) : "?";
+  const launched = !!state.launched;
+  if(lang === "zh"){
+    return `你是我的链上执行助手，使用币安 Agentic Wallet（baw CLI）在 BSC 主网（chainId 56）参与 FairMint Arena。
+
+【合约】${CONTRACT}
+【代币】FMA2（BEP-20，18 位）
+【当前链上快照】已铸造 ${shares}/10,000 份；免费已领 ${free}/1,000；阶段 P${p}；${launched?"已开池":"未开池"}（页面实时读取，执行前请重新核实）
+【规则】
+- 价格：0.00176 BNB 或 1.2 USDT / 份
+- 每份铸造 2,000 枚，1,700 枚到手，300 枚进预留
+- 前 1,000 个钱包可免费领 1 份（freeCount < FREE_CAP）
+- 每个钱包最多 10 份付费
+- 本钱包铸造满 24 小时后可 100% 退款；开池后不能退
+- 满 10,000 份开池；开池后 P2 起按市价买，团队费 9/6/4/2/1/1/0%（市价买入每累计 1 BNB 推进一阶段）
+- 卖出税 80%→0（2 小时）；早鸟第 1 天最多卖 61%，7 天全解锁
+
+【只读检查（先做，不要发交易）】
+1. baw wallet status --json，确认已登录、地址正确
+2. baw wallet balance --json，确认 BNB 和 USDT 余额
+3. 读合约：
+   - totalShares() / MAX_SHARES() / freeCount() / FREE_CAP()
+   - PRICE_BNB() / PRICE_USDT()
+   - mintedShares(我的地址) / paidShares(我的地址) / mintTime(我的地址)
+   - launched() / phase()
+4. 计算：
+   - 我还能免费吗：freeCount < FREE_CAP 且 freeUsed(我) == false
+   - 我还能买几份：10 - paidShares(我)
+   - 应付：付费份数 × 0.00176 BNB（或 × 1.2 USDT）
+
+【执行规则】
+- 任何交易前必须先 baw contract-call preview，把 to、函数、份数、金额、gas 给我看
+- 我说「执行」后才 execute
+- 优先用免费份；付费最多 2 份，除非我明确说加
+- 用 USDT 支付时：先 approve(arena, 应付金额)，再 mint(shares, true)
+- 用 BNB 支付时：mint(shares, false)，value = 付费份数 × 0.00176 BNB
+- 不要动私钥、不要签名消息、不要给其它地址授权
+- 不要买 P2、不要 claim 分红，除非我单独让你做
+
+【函数签名】
+mint(uint8 shares, bool useUsdt) payable   // shares 为总份数（含免费首份），1–10
+refund()
+buy(uint256 minTokens) payable   // 开池后
+claimDividends()
+checkMilestones()
+
+【输出】
+先给我一段中文摘要：
+- 当前进度（已 mint / 10,000，免费剩多少）
+- 我是否还能免费 / 还能买几份
+- 这次准备 mint 几份、用 BNB 还是 USDT、总花费
+- 风险一句话（开池后不能退、可能亏）
+然后等我确认。`;
+  }
+  return `You are my on-chain execution assistant. Use Binance Agentic Wallet (baw CLI) on BSC mainnet (chainId 56) to participate in FairMint Arena.
+
+[Contract] ${CONTRACT}
+[Token] FMA2 (BEP-20, 18 decimals)
+[Live snapshot] Minted ${shares}/10,000 shares; free claimed ${free}/1,000; phase P${p}; ${launched?"pool OPEN":"pool not open"} (read live from the site; re-verify before executing)
+[Rules]
+- Price: 0.00176 BNB or 1.2 USDT per share
+- Each share mints 2,000 tokens: 1,700 to the wallet, 300 to reserve
+- First 1,000 wallets get 1 free share (freeCount < FREE_CAP)
+- Max 10 paid shares per wallet
+- 100% refund once 24h pass since this wallet's mint; no refund after pool open
+- Pool opens at 10,000 shares; from P2 buys are at market price with team fees 9/6/4/2/1/1/0% (each cumulative 1 BNB of market buys advances one phase)
+- Sell tax 80%→0 over 2 hours; early birds can sell at most 61% on day 1, fully unlocked after 7 days
+
+[Read-only checks first — do NOT send transactions]
+1. baw wallet status --json — confirm logged in and correct address
+2. baw wallet balance --json — confirm BNB and USDT balances
+3. Read the contract:
+   - totalShares() / MAX_SHARES() / freeCount() / FREE_CAP()
+   - PRICE_BNB() / PRICE_USDT()
+   - mintedShares(my address) / paidShares(my address) / mintTime(my address)
+   - launched() / phase()
+4. Compute:
+   - Still eligible for free: freeCount < FREE_CAP and freeUsed(me) == false
+   - Paid shares left: 10 - paidShares(me)
+   - Amount due: paid shares × 0.00176 BNB (or × 1.2 USDT)
+
+[Execution rules]
+- Before ANY transaction, run baw contract-call preview and show me to, function, shares, amount, gas
+- Only execute after I say "execute"
+- Prefer the free share; at most 2 paid shares unless I explicitly say more
+- Paying with USDT: approve(arena, amount due) first, then mint(shares, true)
+- Paying with BNB: mint(shares, false) with value = paid shares × 0.00176 BNB
+- Never touch private keys, never sign messages, never approve other addresses
+- Do not buy P2, do not claim dividends, unless I ask separately
+
+[Function signatures]
+mint(uint8 shares, bool useUsdt) payable   // shares = total incl. free first share, 1–10
+refund()
+buy(uint256 minTokens) payable   // after pool open
+claimDividends()
+checkMilestones()
+
+[Output]
+First give me a short summary:
+- Current progress (minted / 10,000, free slots left)
+- Whether I can still claim free / how many paid shares remain
+- How many shares this time, BNB or USDT, total cost
+- One-line risk note (no refund after pool open, possible loss)
+Then wait for my confirmation.`;
+}
+
+function renderPrompt(){
+  $("promptBox").textContent = promptText();
+  const shares = state.shares !== undefined ? loc(state.shares) : "—";
+  const free = state.free !== undefined ? loc(state.free) : "—";
+  const p = state.phase !== undefined ? Number(state.phase) : "—";
+  $("promptState").textContent = t("promptState",{shares, free, p, status: state.launched ? t("launched") : t("minting")});
+}
+
+function renderAll(){
+  renderStats(); renderWallet(); renderOrder(); renderPhases(); renderRules(); renderPrompt();
+}
+
+async function pickProvider(){
+  for(const url of RPCS){
+    try{
+      const p = new ethers.JsonRpcProvider(url);
+      await Promise.race([p.getBlockNumber(), new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),4000))]);
+      return p;
+    }catch(e){/* next */}
+  }
+  throw new Error(t("msgAllRpc"));
+}
+
+async function initRead(){
+  try{
+    readProvider = await pickProvider();
+    readContract = new ethers.Contract(CONTRACT, ABI, readProvider);
+    await refresh();
+  }catch(e){ msg(t("msgReadFail",{e:e.message||String(e)}), "err"); }
+}
+
+async function refresh(){
+  if(!readContract) return;
+  try{
+    const [shares,max,free,freeCap,bnbR,usdtR,launched,phase,supply,pBnb,pUsdt,maxPaid] = await Promise.all([
+      readContract.totalShares(), readContract.MAX_SHARES(), readContract.freeCount(), readContract.FREE_CAP(),
+      readContract.bnbRaised(), readContract.usdtRaised(), readContract.launched(),
+      readContract.phase(), readContract.totalSupply(), readContract.PRICE_BNB(), readContract.PRICE_USDT(), readContract.MAX_PAID_PER_WALLET(),
+    ]);
+    state = {...state, shares,max,free,freeCap,bnbR,usdtR,launched,phase,supply,pBnb,pUsdt,maxPaid};
+    renderAll();
+    if(account) await refreshWallet();
+  }catch(e){ msg(t("msgReadFail",{e:e.shortMessage||e.message||String(e)}), "err"); }
+}
+
+async function refreshWallet(){
+  try{
+    const [bal,minted,paid,freeUsed] = await Promise.all([
+      readContract.balanceOf(account), readContract.mintedShares(account), readContract.paidShares(account), readContract.freeUsed(account),
+    ]);
+    state.bal=bal; state.minted=minted; state.paid=paid; state.freeUsed=freeUsed;
+    renderWallet(); renderOrder();
+  }catch(e){/* ignore wallet read errors */}
+}
+
+async function connect(){
+  if(!window.ethereum){ msg(t("msgNoWallet"), "err"); return; }
+  provider = new ethers.BrowserProvider(window.ethereum);
+  try{
+    await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:BSC.chainId}]});
+  }catch(e){
+    if(e.code===4902) await window.ethereum.request({method:"wallet_addEthereumChain",params:[BSC]});
+    else throw e;
+  }
+  await provider.send("eth_requestAccounts",[]);
+  signer = await provider.getSigner();
+  account = await signer.getAddress();
+  contract = new ethers.Contract(CONTRACT, ABI, signer);
+  if(!readProvider){ readProvider = await pickProvider(); readContract = new ethers.Contract(CONTRACT, ABI, readProvider); }
+  $("noWallet").hidden = true; $("walletPanel").hidden = false;
+  applyStatic();
+  msg(t("msgConnected",{addr:short(account)}));
+  await refresh();
+}
+
+async function sendTx(promise, okText){
+  try{
+    msg(t("msgConfirm"));
+    const tx = await promise;
+    msg(t("msgSubmitted",{hash:tx.hash.slice(0,12)}));
+    await tx.wait();
+    msg(okText+"："+tx.hash, "ok");
+    await refresh();
+  }catch(e){
+    msg(e.shortMessage||e.reason||e.message||String(e), "err");
+  }
+}
+
+async function claimFree(){
+  $("freeBtn").disabled = true;
+  await sendTx(contract.mint(1, false, {value:0n}), t("msgFreeOk"));
+  if(account) await refreshWallet();
+}
+
+async function buyPaid(){
+  const {remaining, bonus, cap} = orderCap();
+  let n = parseInt($("paidNInput").value||"1",10);
+  if(!(n>=1) || n>cap){ msg(t("msgRange",{cap}), "err"); return; }
+  const totalShares = n + bonus;
+  $("buyBtn").disabled = true;
+  try{
+    if(payAsset==="BNB"){
+      const value = state.pBnb * BigInt(n);
+      await sendTx(contract.mint(totalShares, false, {value}), t("msgBuyOk"));
+    }else{
+      const amount = state.pUsdt * BigInt(n);
+      const usdt = new ethers.Contract(USDT, USDT_ABI, signer);
+      const allow = await usdt.allowance(account, CONTRACT);
+      if(allow < amount){
+        msg(t("msgApprove"));
+        const ap = await usdt.approve(CONTRACT, amount);
+        msg(t("msgApproveSent",{hash:ap.hash.slice(0,12)}));
+        await ap.wait();
+      }
+      await sendTx(contract.mint(totalShares, true, {value:0n}), t("msgBuyOk"));
+    }
+  }catch(e){ msg(e.shortMessage||e.reason||e.message||String(e), "err"); }
+  finally{ $("buyBtn").disabled=false; if(account) await refreshWallet(); }
+}
+
+async function refund(){
+  $("refundBtn").disabled = true;
+  await sendTx(contract.refund(), t("msgRefundOk"));
+  $("refundBtn").disabled = false;
+}
+
+async function copyPrompt(){
+  const text = $("promptBox").textContent;
+  const ok = () => { const b=$("copyBtn"); b.textContent=t("copied"); setTimeout(()=>{ b.textContent=t("copy"); },1800); };
+  try{
+    await navigator.clipboard.writeText(text);
+    ok();
+  }catch(e){
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); ok(); }
+    catch(e2){ msg(t("copyFail"), "err"); }
+    ta.remove();
+  }
+}
+
+function step(delta){
+  const inp = $("paidNInput");
+  const {cap} = orderCap();
+  let n = parseInt(inp.value||"1",10) + delta;
+  n = Math.max(1, Math.min(Math.max(1,cap), n));
+  inp.value = n;
+  renderOrder();
+}
+
+$("connBtn").onclick = () => connect().catch(e=>msg(e.message||String(e),"err"));
+$("connectBtn2").onclick = () => connect().catch(e=>msg(e.message||String(e),"err"));
+$("freeBtn").onclick = claimFree;
+$("buyBtn").onclick = buyPaid;
+$("refundBtn").onclick = refund;
+$("copyBtn").onclick = copyPrompt;
+$("minus").onclick = () => step(-1);
+$("plus").onclick = () => step(1);
+$("paidNInput").oninput = renderOrder;
+$("payBnb").onclick = () => { payAsset="BNB"; $("payBnb").setAttribute("aria-pressed","true"); $("payUsdt").setAttribute("aria-pressed","false"); renderOrder(); };
+$("payUsdt").onclick = () => { payAsset="USDT"; $("payUsdt").setAttribute("aria-pressed","true"); $("payBnb").setAttribute("aria-pressed","false"); renderOrder(); };
+$("lzh").onclick = () => setLang("zh");
+$("len").onclick = () => setLang("en");
+if(window.ethereum){
+  window.ethereum.on?.("accountsChanged", ()=>location.reload());
+  window.ethereum.on?.("chainChanged", ()=>location.reload());
+}
+applyStatic();
+renderAll();
+initRead();
+setInterval(()=>refresh().catch(()=>{}), 15000);
+</script>
+</body>
+</html>

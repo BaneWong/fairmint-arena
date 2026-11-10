@@ -1,0 +1,11 @@
+{
+  "name": "fairmint-arena",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FairMint Arena (FMA2) — EVA-style fair-mint console with a localhost-only baw bridge",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  }
+}
