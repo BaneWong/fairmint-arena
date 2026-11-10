@@ -724,6 +724,7 @@ const ABI = [
   "function freeUsed(address) view returns (bool)",
   "function mintTime(address) view returns (uint256)",
   "function quote(address,uint8) view returns (uint256)",
+  "function priceUsdAt(uint256) view returns (uint256)",
   "function bnbForUsd(uint256) view returns (uint256)",
   "function mint(uint8 shares, bool useUsdt) payable",
   "function refund()",
@@ -1266,7 +1267,7 @@ async function refresh(){
     const idx = Number(shares);
     const phase = Math.min(69, 1 + Math.floor(idx / 10000));
     let pUsdt = 0n, pBnb = 0n;
-    try { pUsdt = await readContract.quote(account || "0x0000000000000000000000000000000000000001", 1); pBnb = await readContract.bnbForUsd(pUsdt); } catch(_) {}
+    try { pUsdt = await readContract.priceUsdAt(shares); pBnb = await readContract.bnbForUsd(pUsdt); } catch(_) {}
     state = {...state, shares,max,free,freeCap,bnbR:raised,usdtR:0n,launched,phase,supply,pBnb,pUsdt,maxPaid,tps};
     renderAll();
     if(account) await refreshWallet();
