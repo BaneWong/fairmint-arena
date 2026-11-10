@@ -705,6 +705,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>window.process=window.process||{env:{NODE_ENV:"production"}};window.global=window.global||window;</script>
 <script src="vendor/walletconnect.js"></script>
 <script>
 const CONTRACT = "0x8A9C36f338EB1E3Ace3cD74342C675849b72978B"; // Agent Ascent v6
@@ -1331,6 +1332,8 @@ async function connectWalletConnect(){
 async function checkBridge(){
   injected=getInjected();
   if(injected){ bridgeAvailable=true; $("bridgeNotice").hidden=true; return; }
+  const isLocal = location.hostname==="127.0.0.1" || location.hostname==="localhost";
+  if(!isLocal){ bridgeAvailable=false; $("bridgeNotice").hidden=true; return; }
   {
   try{
     const ctl = new AbortController();
