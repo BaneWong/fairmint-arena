@@ -1282,7 +1282,27 @@ async function api(path, body){
   const r = await fetch(path, opt);
   return await r.json();
 }
+function getInjected(){ return window.ethereum || (window.binancew3w && window.binancew3w.ethereum) || window.okxwallet || null; }
+async function connectInjected(){
+  const p=getInjected(); if(!p) return false;
+  try{
+    const accts=await p.request({method:"eth_requestAccounts"});
+    try{ await p.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]}); }
+    catch(e){
+      if(e && e.code===4902){ await p.request({method:"wallet_addEthereumChain",params:[{chainId:"0x38",chainName:"BNB Smart Chain",nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},rpcUrls:["https://bsc-rpc.publicnode.com"],blockExplorerUrls:["https://bscscan.com"]}]}); }
+    }
+    injected=p;
+    setWallet({connected:true,address:accts[0],devModeActive:true});
+    closeLogin();
+    msg(t("msgConnected",{addr:short(accts[0])}),"ok");
+    await refresh(); await refreshWallet();
+    return true;
+  }catch(e){ msg(e.shortMessage||e.message||String(e),"err"); return false; }
+}
 async function checkBridge(){
+  injected=getInjected();
+  if(injected){ bridgeAvailable=true; $("bridgeNotice").hidden=true; return; }
+  {
   try{
     const ctl = new AbortController();
     const to = setTimeout(()=>ctl.abort(), 6000);
@@ -1293,6 +1313,13 @@ async function checkBridge(){
     if(bridgeAvailable && j.connected){ setWallet(j); }
   }catch(e){ bridgeAvailable=false; }
   $("bridgeNotice").hidden = bridgeAvailable;
+  if(!bridgeAvailable){
+    const local = location.hostname==="127.0.0.1" || location.hostname==="localhost";
+    $("bridgeNotice").innerHTML = local
+      ? "<b>钱包动作需本地桥接</b><br>启动本机桥接后即可扫码登录：<br><code>cd fairmint-arena && node server.mjs</code>"
+      : "<b>未检测到币安钱包</b><br>请在 <b>币安 App</b> 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。";
+  }
+  }
 }
 function setWallet(j){
   wallet = { connected:Boolean(j.connected), address:j.address||null, devModeActive:Boolean(j.devModeActive) };
@@ -1309,6 +1336,7 @@ async function bootWallet(){
 
 /* ── QR login ── */
 function openLogin(){
+  if(injected){ connectInjected(); return; }
   $("loginModal").hidden=false;
   if(!bridgeAvailable){
     $("loginLoading").hidden=true; $("loginQrWrap").hidden=true; $("loginPairingWrap").hidden=true; $("loginExpire").hidden=true; $("loginRetry").hidden=true;
@@ -1375,6 +1403,22 @@ function showConfirmModal(pv, intent){
 }
 function closeTx(result){ $("txModal").hidden=true; if(txResolve){const r=txResolve;txResolve=null;r(result);} }
 async function runTx(intent){
+  if(injected && wallet.connected){
+    msg(t("txPreviewing"));
+    try{
+      const provider=new ethers.BrowserProvider(injected);
+      const signer=await provider.getSigner();
+      const req={to:intent.to,value:BigInt(intent.value||0),data:intent.inputData};
+      await signer.estimateGas(req);
+      const pv={simulationCode:"000000000",risks:{},requireConfirmation:false};
+      const confirmed=await showConfirmModal(pv,intent);
+      if(!confirmed){ msg(t("txCancelled")); return {ok:false,cancelled:true}; }
+      const sent=await signer.sendTransaction(req);
+      msg(t("txBroadcast",{hash:sent.hash.slice(0,14)}),"ok");
+      try{ await provider.waitForTransaction(sent.hash,1,180000); }catch(_){}
+      return {ok:true,txHash:sent.hash};
+    }catch(e){ msg(e.shortMessage||e.message||String(e),"err"); return {ok:false,error:e.message}; }
+  }
   if(!bridgeAvailable){ msg(t("msgNoBridge"),"err"); return {ok:false,error:"no_bridge"}; }
   if(!wallet.connected){ openLogin(); return {ok:false,error:"not_connected"}; }
   if(!wallet.devModeActive){ msg(t("msgDevOff"),"err"); return {ok:false,error:"dev_mode_off"}; }
