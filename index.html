@@ -991,7 +991,7 @@ function renderWallet(){
 function orderCap(){
   const remaining = Number((state.maxPaid ?? 10n) - (state.paid ?? 0n));
   const bonus = freeEligible() ? 1 : 0;
-  return {remaining, bonus, cap: Math.max(0, Math.min(remaining, bonus ? 9 : 10))};
+  return {remaining, bonus, cap: Math.max(0, Math.min(remaining, 10))};
 }
 
 function renderOrder(){
