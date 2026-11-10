@@ -1349,9 +1349,7 @@ async function checkBridge(){
   $("bridgeNotice").hidden = bridgeAvailable;
   if(!bridgeAvailable){
     const local = location.hostname==="127.0.0.1" || location.hostname==="localhost";
-    $("bridgeNotice").innerHTML = local
-      ? (lang==="zh"?"<b>钱包动作需本地桥接</b><br>启动本机桥接后即可扫码登录：<br><code>cd fairmint-arena && node server.mjs</code>":"<b>Local bridge required</b><br>Start the bridge to scan-login:<br><code>cd fairmint-arena && node server.mjs</code>")
-      : (lang==="zh"?"<b>未检测到币安钱包</b><br>请在 <b>币安 App</b> 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。":"<b>No Binance wallet detected</b><br>Open this page in the <b>Binance App</b> browser, or install the Binance Web3 extension and refresh.");
+    $("bridgeNotice").innerHTML = lang==="zh"?"<b>请用币安 App 打开本页</b>":"<b>Open this page in the Binance App</b>";
   }
   }
 }
@@ -1373,13 +1371,7 @@ async function bootWallet(){
 /* ── QR login ── */
 function openLogin(){
   if(injected){ connectInjected(); return; }
-  if(!bridgeAvailable){
-    if(location.hostname!=="127.0.0.1" && location.hostname!=="localhost"){ connectWalletConnect(); return; }
-    msg(location.hostname==="127.0.0.1"||location.hostname==="localhost"
-      ? (lang==="zh"?"本地桥接未启动：cd fairmint-arena && node server.mjs":"Bridge not running: cd fairmint-arena && node server.mjs")
-      : (lang==="zh"?"未检测到币安钱包：请在币安 App 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。":"No Binance wallet detected. Open this page inside the Binance App browser, or install the Binance Web3 wallet extension."),"err");
-    return;
-  }
+  if(!bridgeAvailable){ connectWalletConnect(); return; }
   $("loginModal").hidden=false;
   startLoginFlow();
 }
