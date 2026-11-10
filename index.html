@@ -934,7 +934,7 @@ function applyStatic(){
   if(account){ $("connBtn").className="wbtn on"; $("connBtn").innerHTML="<i></i>"+short(account); }
   else { $("connBtn").className="wbtn"; $("connBtn").textContent=t("connect"); }
 }
-function setLang(l){ lang=l; localStorage.setItem("fma2-lang",l); applyStatic(); renderAll(); if(!$("equityResult").hidden) renderEquity(lastEquity); }
+function setLang(l){ lang=l; localStorage.setItem("fma2-lang",l); document.title = l==="zh" ? "Agent Ascent · ASC // Agent 专属公平铸造" : "Agent Ascent · ASC // Fair launch for Agents"; applyStatic(); renderAll(); if(!$("equityResult").hidden) renderEquity(lastEquity); }
 
 function freeEligible(){ return !state.launched && !state.freeUsed && state.free !== undefined && state.free < state.freeCap; }
 function maxSupply(){ if(state.max===undefined || state.tps===undefined) return null; return state.max*state.tps; }
@@ -1041,11 +1041,11 @@ function renderPhases(){
   for(let i=start;i<=end;i++){
     const pr = Math.min(8, 1.2 + 0.1*(i-1));
     const cls = i===tier ? "cur" : (i<tier ? "done" : "");
-    rows.push(`<div class="lstep ${cls}"><span class="lnode">T${i}</span><div><div class="lname">第 ${i} 档${i===tier?` <span class="curtag">${t("cur")}</span>`:""}</div><div class="ltrig">累计 ${loc((i-1)*10000)} → ${loc(i*10000)} 份</div></div><div class="lmeta"><span class="lfee">${pr.toFixed(1)}U</span>USDT/份</div></div>`);
+    rows.push(`<div class="lstep ${cls}"><span class="lnode">T${i}</span><div><div class="lname">${lang==="zh"?`第 ${i} 档`:`Tier ${i}`}${i===tier?` <span class="curtag">${t("cur")}</span>`:""}</div><div class="ltrig">${lang==="zh"?`累计 ${loc((i-1)*10000)} → ${loc(i*10000)} 份`:`${loc((i-1)*10000)} → ${loc(i*10000)} shares`}</div></div><div class="lmeta"><span class="lfee">${pr.toFixed(1)}U</span>USDT/份</div></div>`);
   }
   $("phaseLadder").innerHTML = rows.join("");
   const btn = $("phaseMore");
-  if(btn){ btn.hidden = false; btn.textContent = phaseExpanded ? "收起，只看附近 10 档" : "展开全部 69 档"; }
+  if(btn){ btn.hidden = false; btn.textContent = phaseExpanded ? (lang==="zh"?"收起，只看附近 10 档":"Collapse to 10 tiers") : (lang==="zh"?"展开全部 69 档":"Expand all 69 tiers"); }
 }
 $("phaseMore") && ($("phaseMore").onclick = () => { phaseExpanded = !phaseExpanded; renderPhases(); });
 function renderRules(){ $("rulesBody").innerHTML = RULES.map(r => { const [k,v]=r[lang]; return `<tr><th>${k}</th><td>${v}</td></tr>`; }).join(""); }
@@ -1109,7 +1109,7 @@ function renderEquity(e){
   $("eqFree").textContent = e.freeUsed ? t("eqFreeUsed") : (freeYes ? t("eqFreeYes") : t("eqFreeNo"));
   $("eqFreeBox").className = "eq " + (e.freeUsed ? "no" : (freeYes ? "yes" : "no"));
   const mt = Number(e.mintTime);
-  $("eqMintTime").textContent = mt>0 ? new Date(mt*1000).toLocaleString(lang==="zh"?"zh-CN":"en-US",{hour12:false}) : (Number(e.minted)>0 ? "迁移转入" : t("eqNeverMinted"));
+  $("eqMintTime").textContent = mt>0 ? new Date(mt*1000).toLocaleString(lang==="zh"?"zh-CN":"en-US",{hour12:false}) : (Number(e.minted)>0 ? (lang==="zh"?"迁移转入":"Migrated") : t("eqNeverMinted"));
   let refund, cls;
   if(state.launched){ refund=t("eqRefundLaunched"); cls="no"; }
   else if(mt<=0){ refund=t("eqNeverMinted"); cls="no"; }
@@ -1316,8 +1316,8 @@ async function checkBridge(){
   if(!bridgeAvailable){
     const local = location.hostname==="127.0.0.1" || location.hostname==="localhost";
     $("bridgeNotice").innerHTML = local
-      ? "<b>钱包动作需本地桥接</b><br>启动本机桥接后即可扫码登录：<br><code>cd fairmint-arena && node server.mjs</code>"
-      : "<b>未检测到币安钱包</b><br>请在 <b>币安 App</b> 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。";
+      ? (lang==="zh"?"<b>钱包动作需本地桥接</b><br>启动本机桥接后即可扫码登录：<br><code>cd fairmint-arena && node server.mjs</code>":"<b>Local bridge required</b><br>Start the bridge to scan-login:<br><code>cd fairmint-arena && node server.mjs</code>")
+      : (lang==="zh"?"<b>未检测到币安钱包</b><br>请在 <b>币安 App</b> 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。":"<b>No Binance wallet detected</b><br>Open this page in the <b>Binance App</b> browser, or install the Binance Web3 extension and refresh.");
   }
   }
 }
@@ -1339,8 +1339,8 @@ function openLogin(){
   if(injected){ connectInjected(); return; }
   if(!bridgeAvailable){
     msg(location.hostname==="127.0.0.1"||location.hostname==="localhost"
-      ? "本地桥接未启动：cd fairmint-arena && node server.mjs"
-      : "未检测到币安钱包：请在币安 App 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。","err");
+      ? (lang==="zh"?"本地桥接未启动：cd fairmint-arena && node server.mjs":"Bridge not running: cd fairmint-arena && node server.mjs")
+      : (lang==="zh"?"未检测到币安钱包：请在币安 App 内置浏览器打开本页，或安装币安 Web3 钱包插件后刷新。":"No Binance wallet detected. Open this page inside the Binance App browser, or install the Binance Web3 wallet extension."),"err");
     return;
   }
   $("loginModal").hidden=false;
