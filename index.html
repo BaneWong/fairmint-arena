@@ -711,6 +711,7 @@ const USDT = "0x55d398326f99059fF775485246999027B3197955";
 const ABI = [
   "function totalShares() view returns (uint256)",
   "function MAX_SHARES() view returns (uint256)",
+  "function OPEN_SHARES() view returns (uint256)",
   "function freeCount() view returns (uint256)",
   "function FREE_CAP() view returns (uint256)",
   "function TOKENS_PER_SHARE() view returns (uint256)",
@@ -958,11 +959,12 @@ function renderStats(){
   $("freeBar").style.width = Math.min(fPct,100)+"%";
   $("freeNum").textContent = loc(state.free)+" / "+loc(state.freeCap);
   $("freeNote").textContent = state.free >= state.freeCap ? t("freeGone",{cap:loc(state.freeCap)}) : t("freeLeft",{cap:loc(state.freeCap), left:loc(state.freeCap-state.free)});
-  const pct = state.max>0n ? Number(state.shares*10000n/state.max)/100 : 0;
+  const openTarget = state.open ?? 10000n;
+  const pct = openTarget>0n ? Number(state.shares*10000n/openTarget)/100 : 0;
   $("poolBar").style.width = Math.min(pct,100)+"%";
-  $("poolNum").textContent = loc(state.shares)+" / "+loc(state.max);
-  $("freeTick").style.left = (state.max>0n ? Number(state.freeCap*10000n/state.max)/100 : 10)+"%";
-  $("poolNote").textContent = state.launched ? t("poolOpen") : t("poolLeft",{left:loc(state.max-state.shares), pct:pct.toFixed(2)});
+  $("poolNum").textContent = loc(state.shares)+" / "+loc(openTarget);
+  $("freeTick").style.left = (openTarget>0n ? Number(state.freeCap*10000n/openTarget)/100 : 10)+"%";
+  $("poolNote").textContent = state.launched ? t("poolOpen") : t("poolLeft",{left:loc(openTarget>state.shares?openTarget-state.shares:0n), pct:pct.toFixed(2)});
   $("stamp").textContent = new Date().toLocaleTimeString(lang==="zh"?"zh-CN":"en-US",{hour12:false});
 
   const ms = maxSupply();
@@ -1259,16 +1261,16 @@ async function initRead(){
 async function refresh(){
   if(!readContract) return;
   try{
-    const [shares,max,free,freeCap,raised,launched,supply,maxPaid,tps] = await Promise.all([
+    const [shares,max,free,freeCap,raised,launched,supply,maxPaid,tps,open] = await Promise.all([
       readContract.totalShares(), readContract.MAX_SHARES(), readContract.freeCount(), readContract.FREE_CAP(),
       readContract.totalRaised(), readContract.launched(), readContract.totalSupply(),
-      readContract.MAX_PAID_PER_WALLET(), readContract.TOKENS_PER_SHARE(),
+      readContract.MAX_PAID_PER_WALLET(), readContract.TOKENS_PER_SHARE(), readContract.OPEN_SHARES(),
     ]);
     const idx = Number(shares);
     const phase = Math.min(69, 1 + Math.floor(idx / 10000));
     let pUsdt = 0n, pBnb = 0n;
     try { pUsdt = await readContract.priceUsdAt(shares); pBnb = await readContract.bnbForUsd(pUsdt); } catch(_) {}
-    state = {...state, shares,max,free,freeCap,bnbR:raised,usdtR:0n,launched,phase,supply,pBnb,pUsdt,maxPaid,tps};
+    state = {...state, shares,max,free,freeCap,bnbR:raised,usdtR:0n,launched,phase,supply,pBnb,pUsdt,maxPaid,tps,open};
     renderAll();
     if(account) await refreshWallet();
   }catch(e){ msg(t("msgReadFail",{e:e.shortMessage||e.message||String(e)}), "err"); }
