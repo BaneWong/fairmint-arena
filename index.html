@@ -645,7 +645,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       <div class="panel-head"><h2 data-i18n="contractTitle">合约</h2><span class="systag">SYS.07 / ON-CHAIN</span></div>
       <dl class="kv">
         <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x8A9C36f338EB1E3Ace3cD74342C675849b72978B</dd>
-        <dt data-i18n="cNameL">名称 / 符号</dt><dd>Agent Ascent · ASC（已上线）<br /><span style="color:var(--dim);font-size:11px">旧合约：FairMint Arena (FMA2) · 0x30Bb…</span></dd>
+        <dt data-i18n="cNameL">名称 / 符号</dt><dd><span data-i18n="cNameV">Agent Ascent · ASC（已上线）</span><br /><span style="color:var(--dim);font-size:11px" data-i18n="cLegacyV">旧合约：FairMint Arena (FMA2) · 0x30Bb…</span></dd>
         <dt data-i18n="cSupplyMintedL">已铸造 / 已售出（含预留）</dt><dd id="cSupplyMinted">—</dd>
         <dt data-i18n="cSupplyMaxL">满额总供应</dt><dd id="cSupplyMax" style="color:var(--green)">2,220,000,000,000 ASC</dd>
         <dt>USDT（BSC-USD）</dt><dd class="addr">0x55d398326f99059fF775485246999027B3197955</dd>
@@ -774,7 +774,8 @@ zh: {
   supplyMinted:"已铸造 / 已售出（含预留）", supplyMax:"满额总供应",
   orderTitle:"下单铸造", orderIntro:"扫码连接币安 Agentic Wallet 后，即可免费领或购买。只读进度与权益查询无需钱包。",
   orderWallets:"AI 钱包专属：点按弹出二维码，用币安 App 扫码登录。不使用 MetaMask，无需任何 Agent ID。",
-  bridgeNoticeT:"钱包动作需本地桥接", bridgeNoticeV:"当前为只读模式。启动本机桥接后即可扫码登录与下单：",
+  cNameV:"Agent Ascent · ASC（已上线）", cLegacyV:"旧合约：FairMint Arena (FMA2) · 0x30Bb…",
+  bridgeNoticeT:"请用币安 App 打开", bridgeNoticeV:"在币安 App 内置浏览器打开本页即可连接钱包。",
   wAddrL:"我的地址", wBnbL:"BNB 余额", wUsdtL:"USDT 余额", wBalL:"ASC 余额", wSharesL:"已铸 / 付费", wFreeL:"免费资格",
   wSharesV:"{m} 份已铸 / {p} 份付费", wFreeYes:"可领 1 份", wFreeUsed:"已用过", wFreeNo:"不可领（已满或已开池）",
   freeBtn:"免费领 1 份（500,000 枚）", freeHintYes:"价值 0 BNB，仅付 gas。", freeHintUsed:"此钱包已领过免费份。", freeHintGone:"免费份已发完或已开池。",
@@ -814,7 +815,7 @@ zh: {
   txSimOk:"模拟通过 · 000000000", txSimBad:"模拟未通过（{code}）· 禁止执行", txGasEst:"以币安 App 确认为准", txRequireConfirm:"需在币安 App 二次确认", txNone:"无额外风险标记",
   txActionFree:"免费领 1 份（500,000 枚）", txActionBuy:"购买 {n} 份{bonus} · {asset}", txActionApprove:"授权 USDT {amt} 给铸造合约", txActionRefund:"退款（开池前 100%）",
   txBonus:"（含 1 免费首份）", txCancelled:"已取消", txPreviewing:"正在模拟交易…", txPreviewFail:"预览失败：{e}", txPending:"已提交，请在币安 App 确认；确认后进度自动刷新。", txBroadcast:"已广播 {hash}… 等待上链", txSuccess:"成功 · {hash}", txExecFail:"执行失败：{e}",
-  msgReadFail:"读取失败：{e}", msgAllRpc:"所有 RPC 都连不上，请检查网络", msgRange:"份数需在 1–{cap} 之间。", msgNoBridge:"钱包动作需本地桥接：node server.mjs",
+  msgReadFail:"读取失败：{e}", msgAllRpc:"所有 RPC 都连不上，请检查网络", msgRange:"份数需在 1–{cap} 之间。", msgNoBridge:"钱包连接不可用，请用币安 App 打开本页",
   msgConnected:"已连接 {addr}", msgFreeOk:"免费铸造成功", msgBuyOk:"购买成功", msgRefundOk:"退款成功", msgApprove:"授权 USDT…", msgApproveWait:"等待授权上链（如弹 App 请确认）…", msgDevOff:"开发者模式未开启：请在币安 App → Agentic Wallet 设置 → Developer Mode 打开后重试。",
 },
 en: {
@@ -880,7 +881,7 @@ en: {
   txSimOk:"Simulation clean · 000000000", txSimBad:"Simulation not clean ({code}) · execute blocked", txGasEst:"per Binance App confirmation", txRequireConfirm:"Needs a second confirmation in the Binance App", txNone:"No extra risk flags",
   txActionFree:"Claim 1 free share (500,000)", txActionBuy:"Buy {n} shares{bonus} · {asset}", txActionApprove:"Approve {amt} USDT to the mint contract", txActionRefund:"Refund (100% pre-launch)",
   txBonus:" (incl. 1 free first share)", txCancelled:"Cancelled", txPreviewing:"Simulating transaction…", txPreviewFail:"Preview failed: {e}", txPending:"Submitted — confirm in the Binance App; progress refreshes after.", txBroadcast:"Broadcast {hash}… awaiting chain", txSuccess:"Success · {hash}", txExecFail:"Execute failed: {e}",
-  msgReadFail:"Read failed: {e}", msgAllRpc:"All RPCs unreachable — check your network", msgRange:"Shares must be 1–{cap}.", msgNoBridge:"Wallet actions need the local bridge: node server.mjs",
+  msgReadFail:"Read failed: {e}", msgAllRpc:"All RPCs unreachable — check your network", msgRange:"Shares must be 1–{cap}.", msgNoBridge:"Wallet connection unavailable — open this page in the Binance App",
   msgConnected:"Linked {addr}", msgFreeOk:"Free mint succeeded", msgBuyOk:"Purchase succeeded", msgRefundOk:"Refund succeeded", msgApprove:"Approving USDT…", msgApproveWait:"Waiting for approval on-chain (confirm in App if prompted)…", msgDevOff:"Developer Mode is off: enable it in Binance App → Agentic Wallet Settings → Developer Mode, then retry.",
 }};
 
@@ -1325,7 +1326,7 @@ async function connectWalletConnect(){
     msg(t("msgConnected",{addr:short(addr)}),"ok");
     await refresh(); await refreshWallet();
     return true;
-  }catch(e){ msg(e.message||String(e),"err"); return false; }
+  }catch(e){ msg(lang==="zh"?"WalletConnect 连接失败（中继不可达）。请改用币安 App 内置浏览器打开本页。":"WalletConnect failed (relay unreachable). Open this page in the Binance App instead.","err"); return false; }
 }
 async function checkBridge(){
   injected=getInjected();
