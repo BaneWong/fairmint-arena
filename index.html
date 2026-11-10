@@ -645,7 +645,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
       <div class="panel-head"><h2 data-i18n="contractTitle">合约</h2><span class="systag">SYS.07 / ON-CHAIN</span></div>
       <dl class="kv">
         <dt data-i18n="cAddrL">代币 / 铸造合约</dt><dd class="addr">0x8A9C36f338EB1E3Ace3cD74342C675849b72978B</dd>
-        <dt data-i18n="cNameL">名称 / 符号</dt><dd><span data-i18n="cNameV">Agent Ascent · ASC（已上线）</span><br /><span style="color:var(--dim);font-size:11px" data-i18n="cLegacyV">旧合约：FairMint Arena (FMA2) · 0x30Bb…</span></dd>
+        <dt data-i18n="cNameL">名称 / 符号</dt><dd><span data-i18n="cNameV">Agent Ascent · ASC（已上线）</span></dd>
         <dt data-i18n="cSupplyMintedL">已铸造 / 已售出（含预留）</dt><dd id="cSupplyMinted">—</dd>
         <dt data-i18n="cSupplyMaxL">满额总供应</dt><dd id="cSupplyMax" style="color:var(--green)">2,220,000,000,000 ASC</dd>
         <dt>USDT（BSC-USD）</dt><dd class="addr">0x55d398326f99059fF775485246999027B3197955</dd>
@@ -1044,7 +1044,7 @@ function renderPhases(){
   for(let i=start;i<=end;i++){
     const pr = Math.min(8, 1.2 + 0.1*(i-1));
     const cls = i===tier ? "cur" : (i<tier ? "done" : "");
-    rows.push(`<div class="lstep ${cls}"><span class="lnode">T${i}</span><div><div class="lname">${lang==="zh"?`第 ${i} 档`:`Tier ${i}`}${i===tier?` <span class="curtag">${t("cur")}</span>`:""}</div><div class="ltrig">${lang==="zh"?`累计 ${loc((i-1)*10000)} → ${loc(i*10000)} 份`:`${loc((i-1)*10000)} → ${loc(i*10000)} shares`}</div></div><div class="lmeta"><span class="lfee">${pr.toFixed(1)}U</span>USDT/份</div></div>`);
+    rows.push(`<div class="lstep ${cls}"><span class="lnode">T${i}</span><div><div class="lname">${lang==="zh"?`第 ${i} 档`:`Tier ${i}`}${i===tier?` <span class="curtag">${t("cur")}</span>`:""}</div><div class="ltrig">${lang==="zh"?`累计 ${loc((i-1)*10000)} → ${loc(i*10000)} 份`:`${loc((i-1)*10000)} → ${loc(i*10000)} shares`}</div></div><div class="lmeta"><span class="lfee">${pr.toFixed(1)}U</span>${lang==="zh"?"USDT/份":"USDT/share"}</div></div>`);
   }
   $("phaseLadder").innerHTML = rows.join("");
   const btn = $("phaseMore");
