@@ -571,16 +571,30 @@ async function initRead(){
 async function refresh(){
   if(!readContract) return;
   try{
-    const [shares,max,free,freeCap,raised,launched,supply,maxPaid,tps,open] = await Promise.all([
-      readContract.totalShares(), readContract.MAX_SHARES(), readContract.freeCount(), readContract.FREE_CAP(),
-      readContract.totalRaised(), readContract.launched(), readContract.totalSupply(),
-      readContract.MAX_PAID_PER_WALLET(), readContract.TOKENS_PER_SHARE(), readContract.OPEN_SHARES(),
+    // v7 contract only has standard ERC-20 functions
+    // totalShares(), MAX_SHARES(), freeCount(), etc. do NOT exist
+    // Use safe calls with fallbacks
+    const [supply] = await Promise.all([
+      readContract.totalSupply(),
     ]);
-    const idx = Number(shares);
+    // All custom function calls fail on v7 — use safe defaults
+    const safeRead = async (fn) => { try { return await fn(); } catch(_) { return null; } };
+    const [shares, max, free, freeCap, raised, launched, maxPaid, tps, open] = await Promise.all([
+      safeRead(() => readContract.totalShares()),
+      safeRead(() => readContract.MAX_SHARES()),
+      safeRead(() => readContract.freeCount()),
+      safeRead(() => readContract.FREE_CAP()),
+      safeRead(() => readContract.totalRaised()),
+      safeRead(() => readContract.launched()),
+      safeRead(() => readContract.MAX_PAID_PER_WALLET()),
+      safeRead(() => readContract.TOKENS_PER_SHARE()),
+      safeRead(() => readContract.OPEN_SHARES()),
+    ]);
+    const idx = shares !== null ? Number(shares) : 0;
     const phase = Math.min(69, 1 + Math.floor(idx / 10000));
     let pUsdt = 0n, pBnb = 0n;
     try { pUsdt = await readContract.priceUsdAt(shares); pBnb = await readContract.bnbForUsd(pUsdt); } catch(_) {}
-    state = {...state, shares,max,free,freeCap,bnbR:raised,usdtR:0n,launched,phase,supply,pBnb,pUsdt,maxPaid,tps,open};
+    state = {...state, shares: shares ?? 0n, max: max ?? 0n, free: free ?? 0n, freeCap: freeCap ?? 0n, bnbR: raised ?? 0n, usdtR: 0n, launched: launched ?? false, phase, supply, pBnb, pUsdt, maxPaid: maxPaid ?? 0n, tps: tps ?? 0n, open: open ?? 0n};
     renderAll();
     if(account) await refreshWallet();
   }catch(e){ msg(t("msgReadFail",{e:e.shortMessage||e.message||String(e)}), "err"); }
@@ -588,11 +602,19 @@ async function refresh(){
 async function refreshWallet(){
   if(!account || !readContract) return;
   try{
-    const [bal,minted,paid,freeUsed,bnbBal,usdtBal] = await Promise.all([
-      readContract.balanceOf(account), readContract.mintedShares(account), readContract.paidShares(account), readContract.freeUsed(account),
-      readProvider.getBalance(account), usdtRead.balanceOf(account),
+    const [bal,bnbBal,usdtBal] = await Promise.all([
+      readContract.balanceOf(account),
+      readProvider.getBalance(account),
+      usdtRead.balanceOf(account),
     ]);
-    state.bal=bal; state.minted=minted; state.paid=paid; state.freeUsed=freeUsed; state.bnbBal=bnbBal; state.usdtBal=usdtBal;
+    // mintedShares, paidShares, freeUsed don't exist on v7 — use defaults
+    const safeRead = async (fn) => { try { return await fn(); } catch(_) { return null; } };
+    const [minted, paid, freeUsed] = await Promise.all([
+      safeRead(() => readContract.mintedShares(account)),
+      safeRead(() => readContract.paidShares(account)),
+      safeRead(() => readContract.freeUsed(account)),
+    ]);
+    state.bal=bal; state.minted=minted ?? 0n; state.paid=paid ?? 0n; state.freeUsed=freeUsed ?? false; state.bnbBal=bnbBal; state.usdtBal=usdtBal;
     renderWallet(); renderOrder();
   }catch(e){/* ignore */}
 }
