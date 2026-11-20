@@ -11,7 +11,7 @@
  *
  * 安全边界：
  *  - 仅 127.0.0.1，不暴露局域网。
- *  - to 白名单：FMA2 合约 + BSC USDT，桥接不能碰其它合约。
+ *  - to 白名单：ASC V7 合约 + BSC USDT，桥接不能碰其它合约。
  *  - execute 三重门：confirm===true && 预览 simulationCode==='000000000' && devMode 仍启用。
  *  - 不打印 / 不外泄会话令牌、私钥；QR 仅以 dataURL 回给本机前端。
  */
@@ -32,7 +32,7 @@ const PORT = Number(process.argv[2] || process.env.FMA_PORT || 8790);
 const HOST = '127.0.0.1';
 
 const CHAIN = '56';
-const CONTRACT = '0x30bbed35e8ea52700338869e66ae2be139932dd1';
+const CONTRACT = '0x17e69fb51961adfbe35523859f9392d20ad1c4c4'; // Agent Ascent V7
 const USDT = '0x55d398326f99059ff775485246999027b3197955';
 const ALLOWED_TO = new Set([CONTRACT, USDT]);
 
@@ -49,7 +49,16 @@ function send(res, code, body, type = 'application/json; charset=utf-8') {
   const payload = type.startsWith('application/json') && typeof body !== 'string'
     ? JSON.stringify(body)
     : body;
-  res.writeHead(code, { 'content-type': type, 'cache-control': 'no-store' });
+  const headers = {
+    'content-type': type,
+    'cache-control': 'no-store',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains',
+    'x-frame-options': 'DENY',
+    'x-content-type-options': 'nosniff',
+    'referrer-policy': 'strict-origin-when-cross-origin',
+    'permissions-policy': 'camera=(), microphone=(), geolocation=()',
+  };
+  res.writeHead(code, headers);
   res.end(payload);
 }
 
@@ -252,5 +261,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, HOST, () => {
   console.log(`FairMint Arena bridge → http://${HOST}:${PORT}`);
-  console.log(`bind ${HOST} only · to whitelist: FMA2 + USDT · execute gated by confirm + simulation 000000000 + devMode`);
+  console.log(`bind ${HOST} only · to whitelist: ASC V7 + USDT · execute gated by confirm + simulation 000000000 + devMode`);
 });
